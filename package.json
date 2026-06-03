@@ -1,0 +1,18 @@
+{
+  "name": "brainstack",
+  "version": "0.1.0",
+  "private": true,
+  "description": "BrainStack — advanced EdTech platform for kids aged 6–14",
+  "workspaces": [
+    "apps/web",
+    "apps/api"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
