@@ -31,20 +31,52 @@ export const environmentValidationSchema = Joi.object({
 
   REDIS_DEFAULT_TTL: Joi.number().integer().min(1).default(3600),
 
-  STRIPE_SECRET_KEY: Joi.string()
-    .pattern(/^sk_(test|live)_/)
-    .required()
-    .messages({
-      "string.pattern.base":
-        "STRIPE_SECRET_KEY must start with sk_test_ or sk_live_",
-    }),
+  PAYMENTS_ENABLED: Joi.boolean()
+    .truthy("true", "1", "yes", "on")
+    .falsy("false", "0", "no", "off", "")
+    .default(false),
 
-  STRIPE_WEBHOOK_SECRET: Joi.string()
-    .pattern(/^whsec_/)
-    .required()
-    .messages({
-      "string.pattern.base": "STRIPE_WEBHOOK_SECRET must start with whsec_",
-    }),
+  STRIPE_SECRET_KEY: Joi.when("PAYMENTS_ENABLED", {
+    is: true,
+    then: Joi.string()
+      .pattern(/^sk_(test|live)_/)
+      .required()
+      .messages({
+        "any.required":
+          "STRIPE_SECRET_KEY is required when PAYMENTS_ENABLED=true",
+        "string.pattern.base":
+          "STRIPE_SECRET_KEY must start with sk_test_ or sk_live_",
+      }),
+    otherwise: Joi.string()
+      .pattern(/^sk_(test|live)_/)
+      .optional()
+      .allow("")
+      .messages({
+        "string.pattern.base":
+          "STRIPE_SECRET_KEY must start with sk_test_ or sk_live_",
+      }),
+  }),
+
+  STRIPE_WEBHOOK_SECRET: Joi.when("PAYMENTS_ENABLED", {
+    is: true,
+    then: Joi.string()
+      .pattern(/^whsec_/)
+      .required()
+      .messages({
+        "any.required":
+          "STRIPE_WEBHOOK_SECRET is required when PAYMENTS_ENABLED=true",
+        "string.pattern.base":
+          "STRIPE_WEBHOOK_SECRET must start with whsec_",
+      }),
+    otherwise: Joi.string()
+      .pattern(/^whsec_/)
+      .optional()
+      .allow("")
+      .messages({
+        "string.pattern.base":
+          "STRIPE_WEBHOOK_SECRET must start with whsec_",
+      }),
+  }),
 
   FRONTEND_URL: Joi.string().uri().required().messages({
     "string.uri": "FRONTEND_URL must be a valid URL (e.g. http://localhost:3000)",
@@ -75,4 +107,14 @@ export const environmentValidationSchema = Joi.object({
       "any.invalid":
         'SMTP_FROM must be a valid email or "Display Name <email@example.com>"',
     }),
+
+  THROTTLE_LOGIN_LIMIT: Joi.number().integer().min(1).default(5),
+  THROTTLE_LOGIN_TTL_SECONDS: Joi.number().integer().min(1).default(60),
+  THROTTLE_REGISTER_LIMIT: Joi.number().integer().min(1).default(5),
+  THROTTLE_REGISTER_TTL_SECONDS: Joi.number().integer().min(1).default(60),
+  THROTTLE_REGISTRATION_LEADS_LIMIT: Joi.number().integer().min(1).default(10),
+  THROTTLE_REGISTRATION_LEADS_TTL_SECONDS: Joi.number()
+    .integer()
+    .min(1)
+    .default(60),
 });

@@ -126,6 +126,20 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
+  async ping(): Promise<boolean> {
+    if (!this.client || this.client.status !== "ready") {
+      return false;
+    }
+
+    try {
+      const response = await this.client.ping();
+      return response === "PONG";
+    } catch (error) {
+      this.logger.warn(`Redis ping failed: ${this.formatError(error)}`);
+      return false;
+    }
+  }
+
   async invalidateByPrefix(prefix: string): Promise<void> {
     if (!this.canUseRedis()) {
       return;

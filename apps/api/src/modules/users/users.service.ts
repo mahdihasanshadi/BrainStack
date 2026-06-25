@@ -8,7 +8,10 @@ import { InjectRepository } from "@nestjs/typeorm";
 import * as bcrypt from "bcryptjs";
 import { QueryFailedError, Repository } from "typeorm";
 import { CreateUserDto } from "./dto/create-user.dto";
-import { User } from "./entities/user.entity";
+import { RegisterUserDto } from "./dto/register-user.dto";
+import { User, UserRole } from "./entities/user.entity";
+
+import type { SafeUser } from "../auth/interfaces/auth-response.interface";
 
 const POSTGRES_UNIQUE_VIOLATION = "23505";
 const BCRYPT_SALT_ROUNDS = 12;
@@ -21,6 +24,16 @@ export class UsersService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
   ) {}
+
+  async register(registerUserDto: RegisterUserDto): Promise<User> {
+    return this.create({
+      fullName: registerUserDto.fullName,
+      email: registerUserDto.email,
+      password: registerUserDto.password,
+      phone: registerUserDto.phone,
+      role: UserRole.PARENT,
+    });
+  }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const normalizedEmail = this.normalizeEmail(createUserDto.email);
@@ -89,6 +102,21 @@ export class UsersService {
       );
       return null;
     }
+  }
+
+  toSafeUser(user: User): SafeUser {
+    return {
+      id: user.id,
+      fullName: user.fullName,
+      email: user.email,
+      phone: user.phone,
+      role: user.role,
+      isVerified: user.isVerified,
+      onboardingCompleted: user.onboardingCompleted,
+      assessmentResult: user.assessmentResult,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
   }
 
   private normalizeEmail(email: string): string {

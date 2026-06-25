@@ -1,5 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
-import { CreateUserDto } from "../users/dto/create-user.dto";
+import { RateLimitLogin, RateLimitRegister } from "../../common/decorators/rate-limit.decorator";
+import { RegisterUserDto } from "../users/dto/register-user.dto";
 import { AuthService } from "./auth.service";
 import { LoginDto } from "./dto/login.dto";
 import { RefreshTokenDto } from "./dto/refresh-token.dto";
@@ -11,12 +12,14 @@ export class AuthController {
 
   @Post("register")
   @HttpCode(HttpStatus.CREATED)
-  register(@Body() createUserDto: CreateUserDto): Promise<AuthResponse> {
-    return this.authService.register(createUserDto);
+  @RateLimitRegister()
+  register(@Body() registerUserDto: RegisterUserDto): Promise<AuthResponse> {
+    return this.authService.register(registerUserDto);
   }
 
   @Post("login")
   @HttpCode(HttpStatus.OK)
+  @RateLimitLogin()
   login(@Body() loginDto: LoginDto): Promise<AuthResponse> {
     return this.authService.login(loginDto);
   }

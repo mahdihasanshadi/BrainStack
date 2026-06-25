@@ -10,7 +10,7 @@ import * as bcrypt from "bcryptjs";
 import { randomUUID, timingSafeEqual } from "crypto";
 import { CacheService } from "../../common/cache/cache.service";
 import type { Configuration } from "../../config/configuration";
-import { CreateUserDto } from "../users/dto/create-user.dto";
+import { RegisterUserDto } from "../users/dto/register-user.dto";
 import { User } from "../users/entities/user.entity";
 import { UsersService } from "../users/users.service";
 import {
@@ -37,8 +37,8 @@ export class AuthService {
     private readonly configService: ConfigService<Configuration, true>,
   ) {}
 
-  async register(createUserDto: CreateUserDto): Promise<AuthResponse> {
-    const user = await this.usersService.create(createUserDto);
+  async register(registerUserDto: RegisterUserDto): Promise<AuthResponse> {
+    const user = await this.usersService.register(registerUserDto);
     return this.issueAuthResponse(user);
   }
 
@@ -182,17 +182,6 @@ export class AuthService {
   }
 
   private toSafeUser(user: User): SafeUser {
-    return {
-      id: user.id,
-      fullName: user.fullName,
-      email: user.email,
-      phone: user.phone,
-      role: user.role,
-      isVerified: user.isVerified,
-      onboardingCompleted: user.onboardingCompleted,
-      assessmentResult: user.assessmentResult,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    };
+    return this.usersService.toSafeUser(user);
   }
 }

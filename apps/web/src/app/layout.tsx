@@ -1,17 +1,27 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
+import { SiteShell } from "@/components/layout/SiteShell";
+import { Providers } from "@/providers/Providers";
 import "@/styles/globals.css";
 
-const inter = Inter({
+const displayFont = Sora({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-display",
+  weight: ["600", "700", "800"],
+});
+
+const bodyFont = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-body",
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
-  title: "BrainStack",
+  title: "BrainStack — Coding for the Next Generation",
   description:
-    "BrainStack — advanced EdTech for logical reasoning, analytical thinking, and Scratch programming.",
+    "Premium live coding education for curious kids. BrainStack builds confidence, creativity, and future-ready skills.",
 };
 
 export default function RootLayout({
@@ -20,8 +30,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className={`${inter.className} antialiased`}>{children}</body>
+    <html lang="en" suppressHydrationWarning className={`${displayFont.variable} ${bodyFont.variable}`}>
+      <body className={`${bodyFont.className} flex min-h-screen flex-col`}>
+        <Providers>
+          <SiteShell>{children}</SiteShell>
+        </Providers>
+      </body>
     </html>
   );
 }

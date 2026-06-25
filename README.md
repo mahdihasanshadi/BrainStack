@@ -23,7 +23,7 @@ This repository is an [npm workspaces](https://docs.npmjs.com/cli/using-npm/work
 | Web         | `apps/web`  | Student-facing web experience (Next.js)   |
 | API         | `apps/api`  | Backend services and integrations (NestJS)|
 
-Workspace packages will be scaffolded in a later step. No application dependencies are installed at the root bootstrap stage.
+See [`apps/api/README.md`](apps/api/README.md) for API setup, environment variables, and database migrations.
 
 ## Prerequisites
 
@@ -42,12 +42,12 @@ From the repository root, after workspace `package.json` files and dependencies 
 
 These commands use `npm run <script> --workspaces --if-present`, so missing scripts in a workspace are skipped safely.
 
-## Getting started (upcoming)
-
-Once `apps/web` and `apps/api` are initialized:
+## Getting started
 
 ```bash
 npm install
+# Copy apps/api/.env.example to apps/api/.env and configure values
+npm run migration:run -w @brainstack/api
 npm run dev
 ```
 
