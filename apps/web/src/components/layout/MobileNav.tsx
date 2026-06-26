@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
-import { PRIMARY_NAV_LINKS, TRIAL_CTA } from "./nav-links";
+import { PARENT_MEETING_CTA, PRIMARY_NAV_LINKS, TRIAL_CTA } from "./nav-links";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -59,11 +59,18 @@ export function MobileNav() {
                   {link.label}
                 </Link>
               ))}
-              <div className="mt-4 flex items-center gap-3">
+              <div className="mt-4 flex flex-col gap-3">
                 <ThemeToggle />
                 <Link
+                  href={PARENT_MEETING_CTA.href}
+                  className="btn-primary justify-center"
+                  onClick={() => setOpen(false)}
+                >
+                  {PARENT_MEETING_CTA.label}
+                </Link>
+                <Link
                   href={TRIAL_CTA.href}
-                  className="btn-primary flex-1 justify-center"
+                  className="btn-secondary justify-center"
                   onClick={() => setOpen(false)}
                 >
                   {TRIAL_CTA.label}

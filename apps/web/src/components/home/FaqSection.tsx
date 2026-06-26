@@ -3,6 +3,11 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 
 const FAQ_ITEMS = [
   {
+    question: "What is the monthly parent meeting?",
+    answer:
+      "A free live online session held every month for parents. We explain why coding and logical reasoning matter for kids, how BrainStack teaches (live + recorded classes), and host a Q&A to answer all your questions. Register free at /webinar with just your email and phone.",
+  },
+  {
     question: "What age groups does BrainStack serve?",
     answer:
       "BrainStack offers three age-based tracks: ages 6–8, 9–11, and 12–14. Each track has its own curriculum pace and project complexity, so your child always learns at the right level.",

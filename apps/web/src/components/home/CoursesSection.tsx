@@ -17,14 +17,14 @@ export function CoursesSection() {
       <div className="site-container relative">
         <SectionHeader
           id="courses-heading"
-          eyebrow="Choose your program"
+          eyebrow="Our Flagship Program"
           title={
             <>
-              Exciting tracks,{" "}
-              <span className="gradient-text">curated by experts</span>
+              One course.{" "}
+              <span className="gradient-text">Perfectly crafted.</span>
             </>
           }
-          description="Select the age-appropriate path for your child — each program is a stepped journey through Scratch and foundational coding with live guidance every week."
+          description="Junior Game Dev: Scratch & Logic — 4 months, 20 classes, 4 real Bangladeshi games. Ages 8–14. No coding experience needed."
           align="center"
         />
 

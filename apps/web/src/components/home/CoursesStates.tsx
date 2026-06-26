@@ -64,7 +64,7 @@ export function CoursesErrorState() {
 
 export function CoursesGrid({ courses }: { courses: CourseSummary[] }) {
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="space-y-6">
       {courses.map((course, index) => (
         <CourseCard key={course.id} course={course} index={index} />
       ))}

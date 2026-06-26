@@ -14,6 +14,7 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
   private client: Redis | null = null;
   private defaultTtlSeconds = 3600;
   private isAvailable = false;
+  private memoryCache = new Map<string, { value: string; expiresAt: number }>();
 
   constructor(
     private readonly configService: ConfigService<Configuration, true>,
@@ -76,7 +77,15 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
 
   async get<T>(key: string): Promise<T | null> {
     if (!this.canUseRedis()) {
-      return null;
+      const entry = this.memoryCache.get(key);
+      if (!entry) {
+        return null;
+      }
+      if (Date.now() > entry.expiresAt) {
+        this.memoryCache.delete(key);
+        return null;
+      }
+      return JSON.parse(entry.value) as T;
     }
 
     try {
@@ -96,14 +105,16 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
   }
 
   async set(key: string, value: any, ttl?: number): Promise<void> {
+    const serialized = JSON.stringify(value);
+    const ttlSeconds = ttl ?? this.defaultTtlSeconds;
+
     if (!this.canUseRedis()) {
+      const expiresAt = Date.now() + (ttlSeconds * 1000);
+      this.memoryCache.set(key, { value: serialized, expiresAt });
       return;
     }
 
     try {
-      const serialized = JSON.stringify(value);
-      const ttlSeconds = ttl ?? this.defaultTtlSeconds;
-
       await this.client!.set(key, serialized, "EX", ttlSeconds);
     } catch (error) {
       this.logger.warn(
@@ -114,6 +125,7 @@ export class CacheService implements OnModuleInit, OnModuleDestroy {
 
   async del(key: string): Promise<void> {
     if (!this.canUseRedis()) {
+      this.memoryCache.delete(key);
       return;
     }
 

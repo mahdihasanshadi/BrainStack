@@ -5,8 +5,12 @@ export interface CourseSummaryResponse {
   ageMin: number;
   ageMax: number;
   shortDescription: string;
+  longDescription: string | null;
   durationMonths: number;
   displayOrder: number;
+  priceBdt: number;
+  originalPriceBdt: number;
+  isPurchasable: boolean;
 }
 
 export interface CourseLevelResponse {

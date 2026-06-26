@@ -52,8 +52,12 @@ export class CoursesService {
       ageMin: course.ageMin,
       ageMax: course.ageMax,
       shortDescription: course.shortDescription,
+      longDescription: course.longDescription,
       durationMonths: course.durationMonths,
       displayOrder: course.displayOrder,
+      priceBdt: course.priceBdt,
+      originalPriceBdt: course.originalPriceBdt,
+      isPurchasable: course.isPurchasable,
     };
   }
 

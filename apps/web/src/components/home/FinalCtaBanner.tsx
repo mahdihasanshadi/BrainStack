@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { AnimatedBackground } from "@/components/effects/AnimatedBackground";
+import { AccentText } from "@/components/ui/AccentText";
 import { TRIAL_REGISTRATION_PATH } from "@/components/layout/nav-links";
 
 export function FinalCtaBanner() {
@@ -27,8 +28,10 @@ export function FinalCtaBanner() {
               id="final-cta-heading"
               className="mt-6 font-display text-section-sm font-extrabold text-content sm:text-section"
             >
-              Ready to unlock your child&apos;s{" "}
-              <span className="gradient-text">creative potential</span>?
+              Book a free class to start your kid&apos;s{" "}
+              <span className="gradient-text">
+                <AccentText>coding journey</AccentText>
+              </span>
             </h2>
             <p className="mx-auto mt-5 max-w-xl text-lg text-content-muted">
               Join BrainStack with a completely free trial class. No payment,
@@ -38,13 +41,22 @@ export function FinalCtaBanner() {
               href={TRIAL_REGISTRATION_PATH}
               className="btn-primary mt-10 px-10 py-4 text-base"
             >
-              Book free trial class
+              Book FREE trial class
               <span aria-hidden="true">→</span>
             </Link>
-            <ul className="mt-8 flex flex-wrap justify-center gap-6 text-sm font-medium text-content-muted">
-              <li>✓ No payment required</li>
-              <li>✓ Ages 6–14</li>
-              <li>✓ Bangla or English</li>
+            <ul className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-medium text-content-muted">
+              <li className="flex items-center gap-2">
+                <span className="text-brand-green">✓</span> No payment required
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-brand-green">✓</span> Ages 6–14
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-brand-green">✓</span> Bangla or English
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-brand-green">✓</span> Live instructors
+              </li>
             </ul>
           </div>
         </motion.div>

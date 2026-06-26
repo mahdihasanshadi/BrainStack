@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { TRIAL_REGISTRATION_PATH } from "@/components/layout/nav-links";
+import { TRIAL_REGISTRATION_PATH, PARENT_MEETING_PATH } from "@/components/layout/nav-links";
 
 const ITEMS = [
-  "Free trial — no payment required",
+  "Free monthly parent meeting — register now",
+  "Logical Reasoning & Scratch course — buy with bKash, Nagad, or card",
   "Live Scratch coding for ages 6–14",
   "Bangla or English instruction",
-  "Small groups · real instructors",
-  "Building the next generation of creators",
+  "Kid readiness assessment available",
 ] as const;
 
 export function AnnouncementBar() {
@@ -25,10 +25,10 @@ export function AnnouncementBar() {
             <span className="h-1 w-1 rounded-full bg-brand-yellow" aria-hidden="true" />
             {item}
             <Link
-              href={TRIAL_REGISTRATION_PATH}
+              href={PARENT_MEETING_PATH}
               className="text-brand-green transition-colors hover:text-brand-green-dark dark:text-brand-yellow-light"
             >
-              Book now →
+              Register →
             </Link>
           </span>
         ))}

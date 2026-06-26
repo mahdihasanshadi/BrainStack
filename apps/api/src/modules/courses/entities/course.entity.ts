@@ -32,6 +32,21 @@ export class Course {
   @Column({ type: "integer" })
   displayOrder!: number;
 
+  @Column({ type: "integer", default: 0 })
+  priceBdt!: number;
+
+  @Column({ type: "integer", default: 12999 })
+  originalPriceBdt!: number;
+
+  @Column({ type: "varchar", length: 255, nullable: true })
+  stripePriceId!: string | null;
+
+  @Column({ type: "boolean", default: false })
+  isPurchasable!: boolean;
+
+  @Column({ type: "text", nullable: true })
+  longDescription!: string | null;
+
   @OneToMany(() => CourseLevel, (level) => level.course)
   levels!: CourseLevel[];
 }

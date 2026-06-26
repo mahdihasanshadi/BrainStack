@@ -3,11 +3,19 @@
 import { motion } from "framer-motion";
 
 const FLOATING_ICONS = [
-  { emoji: "🤖", x: "8%", y: "12%", delay: 0 },
-  { emoji: "💡", x: "78%", y: "8%", delay: 0.5 },
-  { emoji: "🪐", x: "85%", y: "55%", delay: 1 },
-  { emoji: "⚡", x: "5%", y: "65%", delay: 1.5 },
-  { emoji: "🧠", x: "42%", y: "5%", delay: 0.8 },
+  { emoji: "🐱", x: "8%", y: "12%", delay: 0 },
+  { emoji: "🎮", x: "78%", y: "8%", delay: 0.5 },
+  { emoji: "🌟", x: "85%", y: "55%", delay: 1 },
+  { emoji: "🎨", x: "5%", y: "65%", delay: 1.5 },
+  { emoji: "🚀", x: "42%", y: "5%", delay: 0.8 },
+] as const;
+
+const SCRATCH_BLOCKS = [
+  { color: "bg-orange-400", label: "when 🏁 clicked", width: "w-44" },
+  { color: "bg-brand-yellow", label: "forever", width: "w-36", indent: true },
+  { color: "bg-brand-green-light", label: "move 10 steps", width: "w-40", indent: true, nested: true },
+  { color: "bg-blue-400", label: "play sound Meow", width: "w-44", indent: true, nested: true },
+  { color: "bg-purple-400", label: "if touching edge", width: "w-40", indent: true },
 ] as const;
 
 export function HeroVisual() {
@@ -29,39 +37,41 @@ export function HeroVisual() {
             <span className="h-3 w-3 rounded-full bg-yellow-400" />
             <span className="h-3 w-3 rounded-full bg-brand-yellow" />
             <span className="ml-3 font-mono text-xs text-content-faint">
-              brainstack.studio
+              scratch.brainstack.studio
             </span>
           </div>
 
-          <div className="mt-6 flex-1 space-y-3 font-mono text-sm">
-            <p>
-              <span className="text-brand-green-dark">function</span>{" "}
-              <span className="text-brand-yellow-light">buildFuture</span>
-              <span className="text-content-muted">() {"{"}</span>
-            </p>
-            <p className="pl-4">
-              <span className="text-brand-green">const</span> learner ={" "}
-              <span className="text-brand-yellow">&quot;curious&quot;</span>;
-            </p>
-            <p className="pl-4">
-              <span className="text-brand-green">return</span> create(
-              <span className="text-brand-yellow-light">game</span>,{" "}
-              <span className="text-brand-yellow-light">story</span>,{" "}
-              <span className="text-brand-yellow-light">dream</span>);
-            </p>
-            <p className="text-content-muted">{"}"}</p>
+          <div className="mt-6 flex flex-1 flex-col gap-2">
+            {SCRATCH_BLOCKS.map((block, i) => (
+              <motion.div
+                key={block.label}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 + i * 0.15, duration: 0.4 }}
+                className={`${block.width} rounded-lg ${block.color} py-2 pl-3 pr-4 font-mono text-xs font-semibold text-white shadow-md ${
+                  "indent" in block && block.indent ? "ml-4" : ""
+                } ${"nested" in block && block.nested ? "ml-8" : ""}`}
+                style={{ borderRadius: "8px 8px 8px 4px" }}
+              >
+                {block.label}
+              </motion.div>
+            ))}
           </div>
 
-          <div className="mt-4 flex gap-2">
-            <div className="h-2 flex-1 overflow-hidden rounded-full bg-surface-muted">
-              <motion.div
-                className="h-full rounded-full bg-gradient-brand"
-                initial={{ width: "0%" }}
-                animate={{ width: "78%" }}
-                transition={{ duration: 2, delay: 0.5, ease: "easeOut" }}
-              />
+          <div className="mt-4 flex items-center gap-3 rounded-xl border border-border bg-surface-muted/50 p-3">
+            <span className="text-2xl">🐱</span>
+            <div className="flex-1">
+              <p className="text-xs font-semibold text-content">Sprite: Coding Cat</p>
+              <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-surface-muted">
+                <motion.div
+                  className="h-full rounded-full bg-gradient-brand"
+                  initial={{ width: "0%" }}
+                  animate={{ width: "85%" }}
+                  transition={{ duration: 2, delay: 1, ease: "easeOut" }}
+                />
+              </div>
             </div>
-            <span className="text-xs font-semibold text-brand-yellow">78%</span>
+            <span className="text-xs font-bold text-brand-green">85%</span>
           </div>
         </div>
       </motion.div>
@@ -93,31 +103,6 @@ export function HeroVisual() {
         animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
         transition={{ duration: 5, repeat: Infinity, delay: 1 }}
       />
-
-      <svg
-        className="absolute inset-0 h-full w-full opacity-20 dark:opacity-30"
-        viewBox="0 0 400 400"
-        fill="none"
-      >
-        <motion.circle
-          cx="200"
-          cy="200"
-          r="120"
-          stroke="url(#ring)"
-          strokeWidth="1"
-          strokeDasharray="4 8"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          style={{ transformOrigin: "200px 200px" }}
-        />
-        <defs>
-          <linearGradient id="ring" x1="0" y1="0" x2="400" y2="400">
-            <stop stopColor="#15803D" />
-            <stop offset="0.5" stopColor="#22C55E" />
-            <stop offset="1" stopColor="#EAB308" />
-          </linearGradient>
-        </defs>
-      </svg>
     </div>
   );
 }

@@ -1,3 +1,7 @@
+"use client";
+
+import { Reveal } from "@/components/motion/Reveal";
+
 const FEATURES = [
   {
     emoji: "🎥",
@@ -28,25 +32,27 @@ const FEATURES = [
 export function FeaturesStrip() {
   return (
     <section
-      className="border-y-2 border-jute-dark/60 bg-jute/40 py-12 sm:py-14"
+      className="relative border-b border-border bg-surface py-12 sm:py-14"
       aria-label="Why BrainStack"
     >
       <div className="site-container grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {FEATURES.map((feature) => (
-          <div key={feature.title} className="text-center sm:text-left">
-            <span
-              aria-hidden="true"
-              className="inline-flex h-12 w-12 items-center justify-center rounded-playful bg-white text-2xl shadow-band"
-            >
-              {feature.emoji}
-            </span>
-            <h3 className="mt-4 font-display text-body-lg font-bold text-paddy">
-              {feature.title}
-            </h3>
-            <p className="mt-2 text-body-sm text-ink-muted">
-              {feature.description}
-            </p>
-          </div>
+        {FEATURES.map((feature, index) => (
+          <Reveal key={feature.title} delay={index * 0.08}>
+            <div className="group text-center sm:text-left">
+              <span
+                aria-hidden="true"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-border bg-brand-green/10 text-2xl transition-transform group-hover:scale-110 dark:bg-brand-green/20"
+              >
+                {feature.emoji}
+              </span>
+              <h3 className="mt-4 font-display text-base font-bold text-content">
+                {feature.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-content-muted">
+                {feature.description}
+              </p>
+            </div>
+          </Reveal>
         ))}
       </div>
     </section>

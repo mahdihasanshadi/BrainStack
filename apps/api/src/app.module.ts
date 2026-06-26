@@ -12,6 +12,9 @@ import { ClassSlotsModule } from "./modules/class-slots/class-slots.module";
 import { CoursesModule } from "./modules/courses/courses.module";
 import { HealthModule } from "./modules/health/health.module";
 import { RegistrationLeadsModule } from "./modules/registration-leads/registration-leads.module";
+import { ParentMeetingLeadsModule } from "./modules/parent-meeting-leads/parent-meeting-leads.module";
+import { AssessmentsModule } from "./modules/assessments/assessments.module";
+import { PaymentsModule } from "./modules/payments/payments.module";
 import { UsersModule } from "./modules/users/users.module";
 
 @Module({
@@ -36,6 +39,9 @@ import { UsersModule } from "./modules/users/users.module";
     CoursesModule,
     HealthModule,
     RegistrationLeadsModule,
+    ParentMeetingLeadsModule,
+    AssessmentsModule,
+    PaymentsModule,
   ],
   controllers: [],
   providers: [],

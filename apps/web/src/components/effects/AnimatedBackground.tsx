@@ -4,26 +4,22 @@ import { motion } from "framer-motion";
 
 const BLOBS = [
   {
-    className:
-      "left-[5%] top-[10%] h-72 w-72 bg-brand-green/30 dark:bg-brand-green/20",
+    className: "left-[5%] top-[10%] h-80 w-80 bg-brand-green/25 dark:bg-brand-green/30",
     animate: { x: [0, 30, 0], y: [0, -20, 0] },
     duration: 12,
   },
   {
-    className:
-      "right-[10%] top-[20%] h-96 w-96 bg-brand-green-dark/25 dark:bg-brand-green-dark/15",
+    className: "right-[10%] top-[20%] h-96 w-96 bg-brand-green-dark/30 dark:bg-brand-green/20",
     animate: { x: [0, -25, 0], y: [0, 30, 0] },
     duration: 15,
   },
   {
-    className:
-      "bottom-[10%] left-[30%] h-80 w-80 bg-brand-yellow-light/20 dark:bg-brand-yellow-light/10",
+    className: "bottom-[10%] left-[30%] h-80 w-80 bg-brand-yellow/15 dark:bg-brand-yellow/20",
     animate: { x: [0, 20, 0], y: [0, -15, 0] },
     duration: 18,
   },
   {
-    className:
-      "bottom-[20%] right-[20%] h-64 w-64 bg-brand-yellow/15 dark:bg-brand-yellow/10",
+    className: "bottom-[20%] right-[20%] h-64 w-64 bg-brand-green-light/15 dark:bg-brand-yellow-light/10",
     animate: { x: [0, -15, 0], y: [0, 20, 0] },
     duration: 14,
   },
@@ -52,7 +48,7 @@ interface AnimatedBackgroundProps {
 
 export function AnimatedBackground({
   variant = "section",
-  showGrid = true,
+  showGrid = false,
   showStars = false,
 }: AnimatedBackgroundProps) {
   const showParticles = variant !== "minimal";
@@ -68,7 +64,7 @@ export function AnimatedBackground({
       />
 
       {showGrid ? (
-        <div className="absolute inset-0 bg-grid-pattern bg-grid bg-grid dark:bg-grid-pattern-dark" />
+        <div className="absolute inset-0 bg-grid-pattern bg-grid dark:bg-grid-pattern-dark" />
       ) : null}
 
       {BLOBS.map((blob, index) => (
@@ -76,11 +72,7 @@ export function AnimatedBackground({
           key={index}
           className={`absolute rounded-full blur-3xl ${blob.className}`}
           animate={blob.animate}
-          transition={{
-            duration: blob.duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          transition={{ duration: blob.duration, repeat: Infinity, ease: "easeInOut" }}
         />
       ))}
 
@@ -88,20 +80,23 @@ export function AnimatedBackground({
         ? PARTICLES.map((p) => (
             <motion.div
               key={p.id}
-              className="absolute rounded-full bg-brand-green/40 dark:bg-brand-yellow-light/30"
-              style={{
-                left: p.left,
-                top: p.top,
-                width: p.size,
-                height: p.size,
-              }}
+              className="absolute rounded-full bg-brand-green/35 dark:bg-brand-yellow-light/25"
+              style={{ left: p.left, top: p.top, width: p.size, height: p.size }}
               animate={{ opacity: [0.2, 0.8, 0.2], y: [0, -8, 0] }}
-              transition={{
-                duration: 3 + (p.id % 4),
-                repeat: Infinity,
-                delay: p.delay,
-                ease: "easeInOut",
-              }}
+              transition={{ duration: 3 + (p.id % 4), repeat: Infinity, delay: p.delay, ease: "easeInOut" }}
+            />
+          ))
+        : null}
+
+      {/* Circuit-board-style glowing dots in dark mode */}
+      {showParticles
+        ? PARTICLES.filter((_, i) => i % 3 === 0).map((p) => (
+            <motion.div
+              key={`circuit-${p.id}`}
+              className="absolute hidden rounded-sm bg-brand-yellow/50 dark:block"
+              style={{ left: p.left, top: p.top, width: 1, height: 1 + (p.id % 4) * 6 }}
+              animate={{ opacity: [0.1, 0.6, 0.1] }}
+              transition={{ duration: 2 + (p.id % 3), repeat: Infinity, delay: p.delay * 1.5, ease: "easeInOut" }}
             />
           ))
         : null}
@@ -110,14 +105,10 @@ export function AnimatedBackground({
         ? STARS.map((star) => (
             <motion.div
               key={star.id}
-              className="absolute hidden h-1 w-1 rounded-full bg-white dark:block"
+              className="absolute h-px w-px rounded-full bg-brand-yellow-light/70 dark:bg-brand-yellow-light/90"
               style={{ left: star.left, top: star.top }}
-              animate={{ opacity: [0.1, 0.9, 0.1] }}
-              transition={{
-                duration: 2 + (star.id % 3),
-                repeat: Infinity,
-                delay: star.delay,
-              }}
+              animate={{ opacity: [0.1, 1, 0.1] }}
+              transition={{ duration: 2 + (star.id % 3), repeat: Infinity, delay: star.delay }}
             />
           ))
         : null}

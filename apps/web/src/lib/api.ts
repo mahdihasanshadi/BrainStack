@@ -15,8 +15,12 @@ export interface CourseSummary {
   ageMin: number;
   ageMax: number;
   shortDescription: string;
+  longDescription: string | null;
   durationMonths: number;
   displayOrder: number;
+  priceBdt: number;
+  originalPriceBdt: number;
+  isPurchasable: boolean;
 }
 
 export interface CourseLevel {
@@ -145,11 +149,17 @@ async function parseJsonBody<T>(response: Response): Promise<T> {
 async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const url = `${getApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
 
+  let token: string | null = null;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("brainstack_access_token");
+  }
+
   const response = await fetch(url, {
     ...init,
     headers: {
       Accept: "application/json",
       ...(init?.body ? { "Content-Type": "application/json" } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...init?.headers,
     },
   });
@@ -208,3 +218,156 @@ export async function createRegistrationLead(
 
 /** Alias used by the trial registration form. */
 export const submitRegistrationLead = createRegistrationLead;
+
+export interface CreateParentMeetingLeadPayload {
+  parentName: string;
+  email: string;
+  phone: string;
+  childName?: string;
+  childAge: number;
+  questions?: string;
+  consent: boolean;
+}
+
+export interface ParentMeetingLead {
+  id: string;
+  parentName: string;
+  email: string;
+  phone: string;
+  childName: string | null;
+  childAge: number;
+  questions: string | null;
+  consentGivenAt: string;
+  createdAt: string;
+}
+
+export interface SubmitKidAssessmentPayload {
+  parentEmail?: string;
+  childAge: number;
+  answers: Record<string, string>;
+}
+
+export interface KidAssessmentResult {
+  id: string;
+  childAge: number;
+  score: number;
+  maxScore: number;
+  readinessLevel: "developing" | "ready" | "advanced";
+  recommendation: string;
+  suggestedCourseSlug: string;
+}
+
+export interface PaymentMethodInfo {
+  id: string;
+  label: string;
+  description: string;
+}
+
+export interface CreateCheckoutSessionPayload {
+  courseSlug: string;
+  email: string;
+  phone?: string;
+  parentName?: string;
+  paymentMethod?: "card" | "bkash" | "nagad";
+}
+
+export interface CheckoutSessionResponse {
+  sessionId: string;
+  checkoutUrl: string;
+  courseTitle: string;
+  priceBdt: number;
+  originalPriceBdt: number;
+  discountPercent: number;
+  paymentMethods: PaymentMethodInfo[];
+  mode: "stripe" | "demo";
+}
+
+export interface CheckoutSessionStatus {
+  sessionId: string;
+  status: "pending" | "completed" | "failed" | "cancelled";
+  courseTitle: string;
+  courseSlug: string;
+  email: string;
+  amountBdt: number;
+  originalPriceBdt: number;
+  provider: "stripe" | "demo";
+  completedAt: string | null;
+  parentName: string | null;
+  phone: string | null;
+}
+
+export async function submitParentMeetingLead(
+  payload: CreateParentMeetingLeadPayload,
+): Promise<ParentMeetingLead> {
+  return apiFetch<ParentMeetingLead>("/parent-meeting-leads", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function submitKidAssessment(
+  payload: SubmitKidAssessmentPayload,
+): Promise<KidAssessmentResult> {
+  return apiFetch<KidAssessmentResult>("/assessments", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function getPaymentMethods(): Promise<PaymentMethodInfo[]> {
+  return apiFetch<PaymentMethodInfo[]>("/payments/methods");
+}
+
+export async function createCheckoutSession(
+  payload: CreateCheckoutSessionPayload,
+): Promise<CheckoutSessionResponse> {
+  return apiFetch<CheckoutSessionResponse>("/payments/checkout-session", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function getCheckoutSessionStatus(
+  sessionId: string,
+): Promise<CheckoutSessionStatus> {
+  return apiFetch<CheckoutSessionStatus>(
+    `/payments/session/${encodeURIComponent(sessionId)}`,
+  );
+}
+
+export interface SafeUser {
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  role: string;
+  isVerified: boolean;
+  onboardingCompleted: boolean;
+  assessmentResult: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+  user: SafeUser;
+}
+
+export async function getProfile(): Promise<SafeUser> {
+  return apiFetch<SafeUser>("/auth/me");
+}
+
+export async function loginUser(payload: any): Promise<AuthResponse> {
+  return apiFetch<AuthResponse>("/auth/login", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function registerUser(payload: any): Promise<AuthResponse> {
+  return apiFetch<AuthResponse>("/auth/register", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
