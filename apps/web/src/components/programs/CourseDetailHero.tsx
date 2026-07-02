@@ -45,15 +45,15 @@ export function CourseDetailHero({ course }: CourseDetailHeroProps) {
   return (
     <>
       {/* ── Dark Udemy-style hero ── */}
-      <div className="relative overflow-hidden bg-[#09001A] border-b border-brand-pink/20">
-        {/* ambient pink glow */}
+      <div className="relative overflow-hidden bg-brand-green-dark border-b border-brand-green/20">
+        {/* ambient blue glow */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-60 left-1/2 h-[700px] w-[1100px] -translate-x-1/2 rounded-full bg-brand-pink/10 blur-[150px]"
+          className="pointer-events-none absolute -top-60 left-1/2 h-[700px] w-[1100px] -translate-x-1/2 rounded-full bg-brand-green/10 blur-[150px]"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute top-0 right-0 h-[400px] w-[400px] rounded-full bg-brand-green/20 blur-[120px]"
+          className="pointer-events-none absolute top-0 right-0 h-[400px] w-[400px] rounded-full bg-brand-pink/15 blur-[120px]"
         />
 
         <div className="site-container relative py-10 pb-12 lg:py-14">
@@ -62,7 +62,7 @@ export function CourseDetailHero({ course }: CourseDetailHeroProps) {
             <div>
               <Link
                 href="/programs"
-                className="mb-6 inline-flex items-center gap-1 text-sm font-semibold text-brand-pink transition-colors hover:text-brand-pink-light"
+                className="mb-6 inline-flex items-center gap-1 text-sm font-semibold text-brand-green-light transition-colors hover:text-brand-green"
               >
                 ← All programs
               </Link>
@@ -74,7 +74,7 @@ export function CourseDetailHero({ course }: CourseDetailHeroProps) {
               >
                 {/* Badges */}
                 <div className="mb-4 flex flex-wrap items-center gap-2">
-                  <span className="rounded-pill border border-brand-pink/40 bg-brand-pink/15 px-3 py-1 text-xs font-bold uppercase tracking-widest text-brand-pink">
+                  <span className="rounded-pill border border-brand-green/40 bg-brand-green/15 px-3 py-1 text-xs font-bold uppercase tracking-widest text-brand-green-light">
                     {"🇧🇩 Bangladesh's #1 Kids Coding Course"}
                   </span>
                   <span className="rounded-pill border border-brand-yellow/30 bg-brand-yellow/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-brand-yellow-light">
@@ -92,7 +92,7 @@ export function CourseDetailHero({ course }: CourseDetailHeroProps) {
                 </h1>
 
                 {/* Tagline */}
-                <p className="mt-4 max-w-2xl text-lg leading-relaxed text-purple-200">
+                <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-200">
                   {"Build real Bangladeshi games — Rickshaw Race, Fuchka Clicker, Cricket Championship — while mastering the logical thinking skills that shape tomorrow's problem-solvers."}{" "}
                   <span className="font-semibold text-white">
                     Zero coding experience needed.
@@ -104,15 +104,15 @@ export function CourseDetailHero({ course }: CourseDetailHeroProps) {
                   <span className="flex items-center gap-1 font-bold text-yellow-400">
                     <Stars /> 4.9
                   </span>
-                  <span className="text-purple-300">(127 parent reviews)</span>
-                  <span className="text-purple-300">•</span>
-                  <span className="text-purple-300">500+ students enrolled</span>
-                  <span className="text-purple-300">•</span>
-                  <span className="text-purple-300">
+                  <span className="text-slate-300">(127 parent reviews)</span>
+                  <span className="text-slate-300">•</span>
+                  <span className="text-slate-300">500+ students enrolled</span>
+                  <span className="text-slate-300">•</span>
+                  <span className="text-slate-300">
                     🗓 {course.durationMonths} months · 20 classes
                   </span>
-                  <span className="text-purple-300">•</span>
-                  <span className="text-purple-300">🌐 Bangla &amp; English</span>
+                  <span className="text-slate-300">•</span>
+                  <span className="text-slate-300">🌐 Bangla &amp; English</span>
                 </div>
 
                 {/* Skill pills */}
@@ -135,7 +135,7 @@ export function CourseDetailHero({ course }: CourseDetailHeroProps) {
                         <span className="font-display text-3xl font-extrabold text-white">
                           {formatBdt(sale)}
                         </span>
-                        <span className="ml-2 text-sm text-purple-400 line-through">
+                        <span className="ml-2 text-sm text-slate-400 line-through">
                           {formatBdt(original)}
                         </span>
                         <span className="ml-2 text-xs font-bold text-green-400">
@@ -171,14 +171,14 @@ export function CourseDetailHero({ course }: CourseDetailHeroProps) {
       </div>
 
       {/* ── Sticky bottom bar (mobile only) ── */}
-      <div className="fixed inset-x-0 bottom-0 z-50 flex items-center gap-3 border-t border-brand-pink/30 bg-[#07000F]/96 p-4 backdrop-blur-xl lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-50 flex items-center gap-3 border-t border-brand-green/30 bg-brand-green-dark/96 p-4 backdrop-blur-xl lg:hidden">
         {course.isPurchasable && course.priceBdt > 0 ? (
           <>
             <div className="min-w-0 flex-1">
               <p className="font-display text-lg font-extrabold text-white">
                 {formatBdt(sale)}
               </p>
-              <p className="text-xs text-purple-400 line-through">
+              <p className="text-xs text-slate-400 line-through">
                 {formatBdt(original)}
               </p>
             </div>
@@ -215,18 +215,18 @@ function PurchaseCard({
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5, delay: 0.12 }}
-      className="sticky top-24 overflow-hidden rounded-2xl border border-brand-pink/35 bg-[#0D0020]/95 shadow-[0_0_60px_rgba(247,37,133,0.22)] backdrop-blur-xl"
+      className="sticky top-24 overflow-hidden rounded-2xl border border-brand-green/35 bg-surface-muted/95 shadow-[0_0_60px_rgba(56,147,244,0.18)] backdrop-blur-xl dark:bg-brand-green-dark/95"
     >
       {/* Video preview */}
-      <div className="relative flex h-44 cursor-pointer items-center justify-center overflow-hidden bg-gradient-to-br from-[#1a0040] via-[#09001A] to-[#07000F] group">
+      <div className="relative flex h-44 cursor-pointer items-center justify-center overflow-hidden bg-gradient-to-br from-brand-green-dark via-brand-green-dark to-brand-green/20 group">
         <span className="text-6xl select-none opacity-30">🎮</span>
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-pink shadow-[0_0_30px_rgba(247,37,133,0.8)] transition-transform group-hover:scale-110">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-green shadow-[0_0_30px_rgba(56,147,244,0.6)] transition-transform group-hover:scale-110">
             <span className="ml-1 text-xl text-white">▶</span>
           </div>
         </div>
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0D0020] to-transparent" />
-        <p className="absolute bottom-3 left-0 right-0 text-center text-xs font-medium text-purple-300">
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-brand-green-dark to-transparent" />
+        <p className="absolute bottom-3 left-0 right-0 text-center text-xs font-medium text-slate-300">
           Watch course preview (2 min)
         </p>
       </div>
@@ -240,7 +240,7 @@ function PurchaseCard({
                 {formatBdt(salePrice)}
               </span>
               {originalPrice > salePrice && (
-                <span className="text-sm text-purple-400 line-through">
+                <span className="text-sm text-slate-400 line-through">
                   {formatBdt(originalPrice)}
                 </span>
               )}
@@ -271,25 +271,25 @@ function PurchaseCard({
           </Link>
           <Link
             href={PARENT_MEETING_PATH}
-            className="btn-ghost w-full py-2 text-center text-xs text-purple-300"
+            className="btn-ghost w-full py-2 text-center text-xs text-slate-300"
           >
             Attend a Parent Info Session →
           </Link>
         </div>
 
-        <p className="mt-3 text-center text-xs text-purple-500">
+        <p className="mt-3 text-center text-xs text-slate-500">
           30-day money-back guarantee · No questions asked
         </p>
 
         {/* What's included */}
         <div className="mt-5 border-t border-white/10 pt-4">
-          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-purple-400">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-400">
             This course includes:
           </p>
           <ul className="space-y-2">
             {INCLUDED.map((item) => (
-              <li key={item} className="flex items-start gap-2 text-sm text-purple-200">
-                <span className="mt-0.5 flex-shrink-0 font-bold text-brand-pink">✓</span>
+              <li key={item} className="flex items-start gap-2 text-sm text-slate-200">
+                <span className="mt-0.5 flex-shrink-0 font-bold text-brand-green">✓</span>
                 {item}
               </li>
             ))}
@@ -298,7 +298,7 @@ function PurchaseCard({
 
         {/* Payment methods */}
         <div className="mt-4 border-t border-white/10 pt-4">
-          <p className="mb-2 text-xs font-bold uppercase tracking-widest text-purple-400">
+          <p className="mb-2 text-xs font-bold uppercase tracking-widest text-slate-400">
             Pay with:
           </p>
           <div className="flex flex-wrap gap-2">

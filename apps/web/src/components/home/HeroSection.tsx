@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { AnimatedBackground } from "@/components/effects/AnimatedBackground";
-import { AccentText } from "@/components/ui/AccentText";
 import { HeroVideo } from "@/components/home/HeroVideo";
+import { LogoColorStrip } from "@/components/ui/LogoColorStrip";
+import { getLogoAccent } from "@/lib/logo-accents";
 import {
   COURSES_SECTION_ID,
   PARENT_MEETING_PATH,
@@ -12,116 +13,138 @@ import {
 } from "@/components/layout/nav-links";
 
 const TRUST = [
-  { label: "Kid-safe platform", icon: "🛡️" },
-  { label: "Live instructors", icon: "👩‍🏫" },
   { label: "Ages 6–14", icon: "✨" },
+  { label: "Live instructors", icon: "👩‍🏫" },
   { label: "Bangla & English", icon: "🌍" },
+  { label: "Kid-safe platform", icon: "🛡️" },
 ] as const;
 
 export function HeroSection() {
   return (
-    <section className="relative flex min-h-[calc(100vh-5rem)] items-center overflow-hidden">
+    <section className="relative overflow-hidden">
       <AnimatedBackground variant="hero" showStars />
 
-      <div className="site-container relative grid gap-16 py-20 lg:grid-cols-2 lg:items-center lg:gap-12 lg:py-28">
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-wrap items-center gap-3"
-          >
-            <p className="eyebrow">For parents &amp; curious kids</p>
-            <span className="hidden rounded-pill bg-brand-yellow/15 px-3 py-1 text-xs font-bold text-brand-yellow-dark dark:text-brand-yellow-light sm:inline-flex">
-              🇧🇩 Built for Bangladesh
-            </span>
-          </motion.div>
+      <div className="site-container relative">
+        <LogoColorStrip size="sm" className="mt-6 max-w-[9rem]" />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-8 font-display text-hero-sm font-extrabold tracking-tight sm:text-hero"
-          >
-            Minimal. Intuitive.{" "}
-            <span className="gradient-text">
-              <AccentText>Future-ready</AccentText>
-            </span>
-          </motion.h1>
+        <div className="grid items-center gap-12 py-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10 lg:py-20">
+          {/* Copy */}
+          <div className="max-w-xl">
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45 }}
+              className="inline-flex items-center gap-2 rounded-pill border border-border bg-surface-glass px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-content backdrop-blur-sm"
+            >
+              <span className="inline-flex gap-0.5" aria-hidden="true">
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-pink" />
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-green" />
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+              </span>
+              Built for Bangladeshi families
+            </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-content-muted sm:text-xl"
-          >
-            BrainStack teaches logical reasoning and Scratch through live weekly
-            classes, pre-recorded lessons, and gamified projects — designed to
-            attract both kids and parents.
-          </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.05 }}
+              className="mt-6 font-display text-[2.35rem] font-extrabold leading-[1.05] tracking-tight text-content sm:text-hero-sm lg:text-[3.25rem]"
+            >
+              Kids build{" "}
+              <span className="text-brand-pink">games</span>, learn{" "}
+              <span className="text-brand-green">logic</span>, and parents stay{" "}
+              <span className="text-brand-yellow-dark dark:text-brand-yellow-light">
+                in the loop
+              </span>
+            </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap"
-          >
-            <Link href={PARENT_MEETING_PATH} className="btn-primary px-8 py-4 text-base">
-              Free parent meeting
-              <span aria-hidden="true">→</span>
-            </Link>
-            <Link href={TRIAL_REGISTRATION_PATH} className="btn-secondary px-8 py-4 text-base">
-              Book trial class
-            </Link>
-            <a href={`#${COURSES_SECTION_ID}`} className="btn-ghost px-4 py-4 text-base">
-              View course →
-            </a>
-          </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.12 }}
+              className="mt-5 text-lg leading-relaxed text-content-muted sm:text-xl"
+            >
+              Live Scratch classes, gamified projects, and a free parent meeting every
+              month — so your child learns to think like a creator, not just memorize.
+            </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="mt-8 rounded-2xl border border-brand-yellow/30 bg-brand-yellow/10 p-4"
-          >
-            <p className="text-sm font-bold text-content">
-              Parents: register with email &amp; phone for our monthly live meeting
-            </p>
-            <p className="mt-1 text-xs text-content-muted">
-              Q&amp;A included · Why coding matters · How we teach · No payment required
-            </p>
-          </motion.div>
-
-          <motion.ul
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-10 grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:gap-6"
-          >
-            {TRUST.map((item) => (
-              <li
-                key={item.label}
-                className="flex items-center gap-2.5 text-sm font-medium text-content-muted"
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.2 }}
+              className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
+            >
+              <Link href={TRIAL_REGISTRATION_PATH} className="btn-primary px-8 py-4 text-base">
+                Book free trial class
+                <span aria-hidden="true">→</span>
+              </Link>
+              <Link
+                href={PARENT_MEETING_PATH}
+                className="btn-secondary-coral px-8 py-4 text-base"
               >
-                <span
-                  aria-hidden="true"
-                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-surface-glass text-base backdrop-blur-sm"
-                >
-                  {item.icon}
-                </span>
-                {item.label}
-              </li>
-            ))}
-          </motion.ul>
-        </div>
+                Free parent meeting
+              </Link>
+            </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <HeroVideo />
-        </motion.div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.28 }}
+              className="mt-4 text-sm text-content-muted"
+            >
+              No payment required to start.{" "}
+              <a
+                href={`#${COURSES_SECTION_ID}`}
+                className="font-semibold text-brand-green underline-offset-4 hover:underline dark:text-brand-green-light"
+              >
+                Explore the flagship course →
+              </a>
+            </motion.p>
+
+            <motion.ul
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.35 }}
+              className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4"
+            >
+              {TRUST.map((item, index) => {
+                const accent = getLogoAccent(index);
+                return (
+                  <li
+                    key={item.label}
+                    className={`rounded-2xl border p-3 text-center backdrop-blur-sm ${accent.cardBorder}`}
+                    style={{ background: "var(--surface-glass)" }}
+                  >
+                    <span className="text-xl" aria-hidden="true">
+                      {item.icon}
+                    </span>
+                    <p className="mt-1.5 text-xs font-semibold leading-snug text-content-muted">
+                      {item.label}
+                    </p>
+                  </li>
+                );
+              })}
+            </motion.ul>
+          </div>
+
+          {/* Visual */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="relative mx-auto w-full max-w-md lg:max-w-none lg:pl-4"
+          >
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -inset-6 rounded-[2rem] opacity-80"
+              style={{
+                background:
+                  "radial-gradient(circle at 20% 20%, rgba(239,93,74,0.22), transparent 45%), radial-gradient(circle at 80% 30%, rgba(56,147,244,0.22), transparent 45%), radial-gradient(circle at 50% 85%, rgba(255,203,60,0.2), transparent 50%)",
+              }}
+            />
+            <HeroVideo />
+          </motion.div>
+        </div>
       </div>
     </section>
   );

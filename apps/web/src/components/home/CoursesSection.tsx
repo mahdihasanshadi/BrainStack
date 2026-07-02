@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { AnimatedBackground } from "@/components/effects/AnimatedBackground";
+import { LogoColorStrip } from "@/components/ui/LogoColorStrip";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { COURSES_SECTION_ID } from "@/components/layout/nav-links";
 import { CoursesSectionContent } from "./CoursesSectionContent";
@@ -12,9 +13,10 @@ export function CoursesSection() {
       className="relative scroll-mt-28 py-24 sm:py-32"
       aria-labelledby="courses-heading"
     >
-      <AnimatedBackground variant="minimal" />
+      <AnimatedBackground variant="section" />
 
       <div className="site-container relative">
+        <LogoColorStrip size="md" className="mx-auto mb-10 max-w-xs" />
         <SectionHeader
           id="courses-heading"
           eyebrow="Our Flagship Program"

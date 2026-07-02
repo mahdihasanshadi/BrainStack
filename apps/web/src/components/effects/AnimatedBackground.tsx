@@ -2,28 +2,30 @@
 
 import { motion } from "framer-motion";
 
+/** Three equal blobs — coral, blue, yellow — matching logo proportions */
 const BLOBS = [
   {
-    className: "left-[5%] top-[10%] h-80 w-80 bg-brand-green/25 dark:bg-brand-green/30",
-    animate: { x: [0, 30, 0], y: [0, -20, 0] },
-    duration: 12,
+    className: "left-[6%] top-[8%] h-80 w-80 bg-brand-pink/28 dark:bg-brand-pink/32",
+    animate: { x: [0, 28, 0], y: [0, -18, 0] },
+    duration: 13,
   },
   {
-    className: "right-[10%] top-[20%] h-96 w-96 bg-brand-green-dark/30 dark:bg-brand-green/20",
-    animate: { x: [0, -25, 0], y: [0, 30, 0] },
+    className: "right-[6%] top-[12%] h-80 w-80 bg-brand-green/28 dark:bg-brand-green/32",
+    animate: { x: [0, -24, 0], y: [0, 22, 0] },
     duration: 15,
   },
   {
-    className: "bottom-[10%] left-[30%] h-80 w-80 bg-brand-yellow/15 dark:bg-brand-yellow/20",
-    animate: { x: [0, 20, 0], y: [0, -15, 0] },
-    duration: 18,
-  },
-  {
-    className: "bottom-[20%] right-[20%] h-64 w-64 bg-brand-green-light/15 dark:bg-brand-yellow-light/10",
-    animate: { x: [0, -15, 0], y: [0, 20, 0] },
-    duration: 14,
+    className: "bottom-[6%] left-[38%] h-80 w-80 bg-brand-yellow/28 dark:bg-brand-yellow/32",
+    animate: { x: [0, 18, 0], y: [0, -14, 0] },
+    duration: 17,
   },
 ];
+
+const PARTICLE_COLORS = [
+  "bg-brand-green/45 dark:bg-brand-green/40",
+  "bg-brand-pink/45 dark:bg-brand-pink/40",
+  "bg-brand-yellow/55 dark:bg-brand-yellow/45",
+] as const;
 
 const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
   id: i,
@@ -31,6 +33,7 @@ const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
   top: `${(i * 23 + 11) % 100}%`,
   size: 2 + (i % 3),
   delay: (i % 8) * 0.4,
+  color: PARTICLE_COLORS[i % 3],
 }));
 
 const STARS = Array.from({ length: 40 }, (_, i) => ({
@@ -38,6 +41,7 @@ const STARS = Array.from({ length: 40 }, (_, i) => ({
   left: `${(i * 13 + 3) % 100}%`,
   top: `${(i * 19 + 5) % 100}%`,
   delay: (i % 6) * 0.5,
+  color: PARTICLE_COLORS[i % 3],
 }));
 
 interface AnimatedBackgroundProps {
@@ -59,7 +63,7 @@ export function AnimatedBackground({
         className={`absolute inset-0 ${
           variant === "hero"
             ? "bg-gradient-hero dark:bg-gradient-hero-dark"
-            : "bg-gradient-hero opacity-60 dark:bg-gradient-hero-dark dark:opacity-80"
+            : "bg-gradient-hero opacity-70 dark:bg-gradient-hero-dark dark:opacity-85"
         }`}
       />
 
@@ -80,23 +84,10 @@ export function AnimatedBackground({
         ? PARTICLES.map((p) => (
             <motion.div
               key={p.id}
-              className="absolute rounded-full bg-brand-green/35 dark:bg-brand-yellow-light/25"
+              className={`absolute rounded-full ${p.color}`}
               style={{ left: p.left, top: p.top, width: p.size, height: p.size }}
-              animate={{ opacity: [0.2, 0.8, 0.2], y: [0, -8, 0] }}
+              animate={{ opacity: [0.25, 0.85, 0.25], y: [0, -8, 0] }}
               transition={{ duration: 3 + (p.id % 4), repeat: Infinity, delay: p.delay, ease: "easeInOut" }}
-            />
-          ))
-        : null}
-
-      {/* Circuit-board-style glowing dots in dark mode */}
-      {showParticles
-        ? PARTICLES.filter((_, i) => i % 3 === 0).map((p) => (
-            <motion.div
-              key={`circuit-${p.id}`}
-              className="absolute hidden rounded-sm bg-brand-yellow/50 dark:block"
-              style={{ left: p.left, top: p.top, width: 1, height: 1 + (p.id % 4) * 6 }}
-              animate={{ opacity: [0.1, 0.6, 0.1] }}
-              transition={{ duration: 2 + (p.id % 3), repeat: Infinity, delay: p.delay * 1.5, ease: "easeInOut" }}
             />
           ))
         : null}
@@ -105,9 +96,9 @@ export function AnimatedBackground({
         ? STARS.map((star) => (
             <motion.div
               key={star.id}
-              className="absolute h-px w-px rounded-full bg-brand-yellow-light/70 dark:bg-brand-yellow-light/90"
+              className={`absolute h-1 w-1 rounded-full ${star.color}`}
               style={{ left: star.left, top: star.top }}
-              animate={{ opacity: [0.1, 1, 0.1] }}
+              animate={{ opacity: [0.15, 1, 0.15] }}
               transition={{ duration: 2 + (star.id % 3), repeat: Infinity, delay: star.delay }}
             />
           ))

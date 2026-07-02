@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LogoMark } from "@/components/ui/LogoMark";
+import { BrandWordmark } from "@/components/ui/BrandWordmark";
 import { MobileNav } from "./MobileNav";
 import { ThemeToggle } from "./ThemeToggle";
 import { PARENT_MEETING_CTA, PRIMARY_NAV_LINKS, TRIAL_CTA } from "./nav-links";
@@ -29,15 +30,11 @@ export function SiteHeader() {
     >
       <div className="site-container flex items-center justify-between gap-4 py-4">
         <Link href="/" className="group flex items-center gap-3">
-          <LogoMark size="sm" className="transition-transform group-hover:scale-105" />
-          <div className="flex flex-col">
-            <span className="font-display text-lg font-bold leading-tight text-content">
-              Brain<span className="text-[#3893F4]">Stack</span>
-            </span>
-            <span className="hidden text-[10px] font-semibold uppercase tracking-widest text-content-faint sm:block">
-              Coding for kids
-            </span>
-          </div>
+          <LogoMark
+            size="sm"
+            className="transition-transform group-hover:scale-105"
+          />
+          <BrandWordmark showTagline size="sm" />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
@@ -47,7 +44,10 @@ export function SiteHeader() {
             </Link>
           ))}
           {isAuthenticated && (
-            <Link href="/dashboard" className="nav-link font-semibold text-brand-pink">
+            <Link
+              href="/dashboard"
+              className="nav-link font-semibold text-brand-pink"
+            >
               Dashboard
             </Link>
           )}

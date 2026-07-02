@@ -11,21 +11,22 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          // Primary: deep-to-bright purple
-          green: "#7C3AED",        // purple-600
-          "green-light": "#A855F7", // purple-500
-          "green-dark": "#3B0764",  // purple-950
+          // Primary — logo blue ("Stack" + middle brain layer)
+          green: "#3893F4",
+          "green-light": "#5CA8F6",
+          "green-dark": "#14233C",
 
-          // Accent: electric cyan / neon
-          yellow: "#06B6D4",        // cyan-500
-          "yellow-light": "#67E8F9", // cyan-300
-          "yellow-dark": "#0891B2",  // cyan-600
+          // Accent — logo yellow (bottom brain layer)
+          yellow: "#FFCB3C",
+          "yellow-light": "#FFD866",
+          "yellow-dark": "#E6B635",
 
-          // Action: neon magenta-pink (the single button CTA color)
-          pink: "#F72585",          // neon pink / magenta
-          "pink-light": "#FF79C6",  // light pink
-          "pink-dark": "#C9155E",   // dark pink
+          // Accent — logo coral (top brain layer)
+          pink: "#EF5D4A",
+          "pink-light": "#F27868",
+          "pink-dark": "#D94E3D",
 
+          navy: "#14233C",
           white: "#FFFFFF",
         },
         surface: {
@@ -67,35 +68,32 @@ const config: Config = {
       },
       boxShadow: {
         glass:
-          "0 8px 32px rgba(124, 58, 237, 0.1), inset 0 1px 0 rgba(255,255,255,0.4)",
+          "0 8px 32px rgba(56, 147, 244, 0.08), inset 0 1px 0 rgba(255,255,255,0.6)",
         "glass-dark":
-          "0 8px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(168, 85, 247, 0.09)",
-        glow: "0 0 40px rgba(168, 85, 247, 0.55)",
-        "glow-yellow": "0 0 40px rgba(6, 182, 212, 0.55)",
-        "glow-pink": "0 0 40px rgba(247, 37, 133, 0.65), 0 0 80px rgba(247, 37, 133, 0.3)",
-        card: "0 4px 24px -4px rgba(124, 58, 237, 0.15)",
+          "0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(56, 147, 244, 0.12)",
+        glow: "0 0 40px rgba(56, 147, 244, 0.45)",
+        "glow-yellow": "0 0 40px rgba(255, 203, 60, 0.45)",
+        "glow-pink": "0 0 40px rgba(239, 93, 74, 0.4)",
+        card: "0 4px 24px -4px rgba(20, 35, 60, 0.08)",
         "card-hover":
-          "0 20px 60px -12px rgba(124, 58, 237, 0.32), 0 0 0 1px rgba(6, 182, 212, 0.22)",
-        float: "0 24px 48px -12px rgba(124, 58, 237, 0.32)",
+          "0 20px 60px -12px rgba(56, 147, 244, 0.22), 0 0 0 1px rgba(255, 203, 60, 0.15)",
+        float: "0 24px 48px -12px rgba(56, 147, 244, 0.25)",
       },
       backgroundImage: {
         "gradient-brand":
-          "linear-gradient(135deg, #4C1D95 0%, #7C3AED 45%, #06B6D4 100%)",
+          "linear-gradient(135deg, #EF5D4A 0%, #EF5D4A 33.33%, #3893F4 33.33%, #3893F4 66.66%, #FFCB3C 66.66%, #FFCB3C 100%)",
         "gradient-brand-reverse":
-          "linear-gradient(135deg, #06B6D4 0%, #7C3AED 50%, #4C1D95 100%)",
+          "linear-gradient(135deg, #FFCB3C 0%, #3893F4 50%, #14233C 100%)",
         "gradient-warm":
-          "linear-gradient(135deg, #A855F7 0%, #06B6D4 100%)",
-        // Light hero: subtle lavender glow
+          "linear-gradient(135deg, #EF5D4A 0%, #FFCB3C 100%)",
         "gradient-hero":
-          "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(124, 58, 237, 0.16), transparent 60%), radial-gradient(ellipse 60% 50% at 90% 20%, rgba(6, 182, 212, 0.1), transparent 50%), radial-gradient(ellipse 50% 40% at 10% 80%, rgba(250, 245, 255, 0.95), transparent 55%)",
-        // Dark hero: strong neon purple glow with pink accent
+          "radial-gradient(ellipse 70% 55% at 15% 15%, rgba(239, 93, 74, 0.16), transparent 55%), radial-gradient(ellipse 70% 55% at 85% 20%, rgba(56, 147, 244, 0.16), transparent 55%), radial-gradient(ellipse 80% 50% at 50% 95%, rgba(255, 203, 60, 0.14), transparent 60%)",
         "gradient-hero-dark":
-          "radial-gradient(ellipse 90% 70% at 50% -5%, rgba(124, 58, 237, 0.45), transparent 65%), radial-gradient(ellipse 60% 50% at 90% 20%, rgba(247, 37, 133, 0.18), transparent 55%), radial-gradient(ellipse 60% 50% at 10% 80%, rgba(59, 7, 100, 0.7), transparent 60%)",
-        // Circuit-board grid — tight purple lines
+          "radial-gradient(ellipse 70% 55% at 15% 15%, rgba(239, 93, 74, 0.2), transparent 55%), radial-gradient(ellipse 70% 55% at 85% 20%, rgba(56, 147, 244, 0.22), transparent 55%), radial-gradient(ellipse 80% 50% at 50% 95%, rgba(255, 203, 60, 0.18), transparent 60%)",
         "grid-pattern":
-          "linear-gradient(rgba(124, 58, 237, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(124, 58, 237, 0.07) 1px, transparent 1px)",
+          "linear-gradient(rgba(56, 147, 244, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(56, 147, 244, 0.06) 1px, transparent 1px)",
         "grid-pattern-dark":
-          "linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px)",
+          "linear-gradient(rgba(56, 147, 244, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(56, 147, 244, 0.1) 1px, transparent 1px)",
       },
       backgroundSize: {
         grid: "64px 64px",
@@ -133,9 +131,9 @@ const config: Config = {
           "0%, 100%": { opacity: "0.3" },
           "50%": { opacity: "0.7" },
         },
-        pinkPulse: {
-          "0%, 100%": { boxShadow: "0 0 20px rgba(247, 37, 133, 0.5)" },
-          "50%": { boxShadow: "0 0 50px rgba(247, 37, 133, 0.9), 0 0 100px rgba(247, 37, 133, 0.4)" },
+        brandPulse: {
+          "0%, 100%": { boxShadow: "0 0 20px rgba(56, 147, 244, 0.4)" },
+          "50%": { boxShadow: "0 0 50px rgba(56, 147, 244, 0.65), 0 0 80px rgba(56, 147, 244, 0.25)" },
         },
       },
       animation: {
@@ -147,7 +145,7 @@ const config: Config = {
         "gradient-shift": "gradientShift 6s ease infinite",
         twinkle: "twinkle 3s ease-in-out infinite",
         "circuit-pulse": "circuitPulse 4s ease-in-out infinite",
-        "pink-pulse": "pinkPulse 3s ease-in-out infinite",
+        "brand-pulse": "brandPulse 3s ease-in-out infinite",
       },
     },
   },

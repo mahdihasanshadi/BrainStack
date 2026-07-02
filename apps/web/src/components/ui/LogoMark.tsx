@@ -4,18 +4,22 @@ interface LogoMarkProps {
 }
 
 const sizes = {
-  sm: "h-9 w-9",
-  md: "h-11 w-11",
-  lg: "h-14 w-14",
+  sm: { className: "h-9 w-9", width: 36, height: 31 },
+  md: { className: "h-11 w-11", width: 44, height: 37 },
+  lg: { className: "h-14 w-14", width: 56, height: 48 },
 };
 
 export function LogoMark({ size = "md", className = "" }: LogoMarkProps) {
+  const dim = sizes[size];
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 100 85"
       fill="none"
-      className={`${sizes[size]} ${className}`}
+      width={dim.width}
+      height={dim.height}
+      className={`shrink-0 ${dim.className} ${className}`}
       aria-hidden="true"
     >
       {/* Top Layer (Red/Coral) */}

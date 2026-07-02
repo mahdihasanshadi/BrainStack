@@ -22,7 +22,7 @@ export function HeroVisual() {
   return (
     <div
       aria-hidden="true"
-      className="relative mx-auto aspect-square w-full max-w-lg lg:max-w-none"
+      className="relative mx-auto aspect-square w-full max-w-[22rem] sm:max-w-md lg:max-w-[26rem]"
     >
       <div className="absolute inset-0 rounded-3xl bg-gradient-brand opacity-20 blur-3xl" />
 
@@ -33,8 +33,8 @@ export function HeroVisual() {
       >
         <div className="flex h-full flex-col p-6 sm:p-8">
           <div className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-red-400" />
-            <span className="h-3 w-3 rounded-full bg-yellow-400" />
+            <span className="h-3 w-3 rounded-full bg-brand-pink" />
+            <span className="h-3 w-3 rounded-full bg-brand-green" />
             <span className="h-3 w-3 rounded-full bg-brand-yellow" />
             <span className="ml-3 font-mono text-xs text-content-faint">
               scratch.brainstack.studio

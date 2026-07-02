@@ -36,6 +36,11 @@ export const environmentValidationSchema = Joi.object({
     .falsy("false", "0", "no", "off", "")
     .default(false),
 
+  DEMO_PAYMENTS: Joi.boolean()
+    .truthy("true", "1", "yes", "on")
+    .falsy("false", "0", "no", "off", "")
+    .default(false),
+
   STRIPE_SECRET_KEY: Joi.when("PAYMENTS_ENABLED", {
     is: true,
     then: Joi.string()

@@ -10,6 +10,7 @@ import * as bcrypt from "bcryptjs";
 import { randomUUID, timingSafeEqual } from "crypto";
 import { CacheService } from "../../common/cache/cache.service";
 import type { Configuration } from "../../config/configuration";
+import { DEFAULT_ADMIN_EMAIL } from "../admin/constants/admin.constants";
 import { RegisterUserDto } from "../users/dto/register-user.dto";
 import { User } from "../users/entities/user.entity";
 import { UsersService } from "../users/users.service";
@@ -43,7 +44,8 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto): Promise<AuthResponse> {
-    const user = await this.usersService.findByEmail(loginDto.email);
+    const email = this.resolveLoginIdentifier(loginDto.email);
+    const user = await this.usersService.findByEmail(email);
 
     if (!user) {
       throw new UnauthorizedException("Invalid credentials");
@@ -179,6 +181,16 @@ export class AuthService {
       Buffer.from(expected, "utf8"),
       Buffer.from(provided, "utf8"),
     );
+  }
+
+  private resolveLoginIdentifier(identifier: string): string {
+    const trimmed = identifier.trim().toLowerCase();
+
+    if (trimmed === "admin") {
+      return DEFAULT_ADMIN_EMAIL;
+    }
+
+    return trimmed;
   }
 
   private toSafeUser(user: User): SafeUser {

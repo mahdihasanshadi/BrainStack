@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { GlassCard } from "@/components/ui/GlassCard";
+import { LogoColorStrip } from "@/components/ui/LogoColorStrip";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { getLogoAccent } from "@/lib/logo-accents";
 import {
   PARENT_MEETING_PATH,
   TRIAL_REGISTRATION_PATH,
@@ -37,6 +39,7 @@ export function EnrollCtaSection() {
       aria-labelledby="enroll-heading"
     >
       <div className="site-container">
+        <LogoColorStrip size="md" className="mx-auto mb-10 max-w-xs" />
         <SectionHeader
           id="enroll-heading"
           eyebrow="Get started"
@@ -51,21 +54,26 @@ export function EnrollCtaSection() {
         />
 
         <Stagger className="mt-16 grid gap-6 lg:grid-cols-3" stagger={0.1}>
-          {BENEFITS.map((item) => (
-            <StaggerItem key={item.title}>
-              <GlassCard className="flex h-full flex-col p-8">
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-brand-pink/20 bg-brand-pink/10 text-2xl">
-                  {item.icon}
-                </div>
-                <h3 className="font-display text-xl font-bold text-content">
-                  {item.title}
-                </h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-content-muted">
-                  {item.description}
-                </p>
-              </GlassCard>
-            </StaggerItem>
-          ))}
+          {BENEFITS.map((item, index) => {
+            const accent = getLogoAccent(index);
+            return (
+              <StaggerItem key={item.title}>
+                <GlassCard className={`flex h-full flex-col border p-8 ${accent.cardBorder}`}>
+                  <div
+                    className={`mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border text-2xl backdrop-blur-sm ${accent.iconWrap}`}
+                  >
+                    {item.icon}
+                  </div>
+                  <h3 className="font-display text-xl font-bold text-content">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-content-muted">
+                    {item.description}
+                  </p>
+                </GlassCard>
+              </StaggerItem>
+            );
+          })}
         </Stagger>
 
         <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -75,10 +83,10 @@ export function EnrollCtaSection() {
           >
             Explore the course
           </Link>
-          <Link href={TRIAL_REGISTRATION_PATH} className="btn-secondary px-8 py-4 text-base">
+          <Link href={TRIAL_REGISTRATION_PATH} className="btn-secondary-coral px-8 py-4 text-base">
             Book free trial
           </Link>
-          <Link href={PARENT_MEETING_PATH} className="btn-ghost px-6 py-4 text-base">
+          <Link href={PARENT_MEETING_PATH} className="btn-secondary-yellow px-6 py-4 text-base">
             Parent meeting →
           </Link>
         </div>

@@ -20,7 +20,11 @@ export function SectionHeader({
   return (
     <Reveal className={centered ? "mx-auto max-w-3xl text-center" : "max-w-2xl"}>
       <p className={`eyebrow ${centered ? "mx-auto" : ""}`}>
-        <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+        <span aria-hidden="true" className="inline-flex gap-0.5">
+          <span className="h-1.5 w-1.5 rounded-full bg-brand-pink" />
+          <span className="h-1.5 w-1.5 rounded-full bg-brand-green" />
+          <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+        </span>
         {eyebrow}
       </p>
       <h2 id={id} className={`section-heading mt-5 ${centered ? "mx-auto" : ""}`}>

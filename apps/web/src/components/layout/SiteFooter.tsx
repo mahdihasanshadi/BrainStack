@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { LogoMark } from "@/components/ui/LogoMark";
+import { BrandWordmark } from "@/components/ui/BrandWordmark";
 
 const PROGRAM_LINKS = [
-  { href: "/programs/logical-reasoning-scratch", label: "Logical Reasoning & Scratch" },
+  {
+    href: "/programs/logical-reasoning-scratch",
+    label: "Logical Reasoning & Scratch",
+  },
   { href: "/programs", label: "All programs" },
 ] as const;
 
@@ -26,7 +30,7 @@ const SOCIAL = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative mt-auto overflow-hidden border-t border-border bg-brand-green-dark text-white dark:bg-[#07000F]">
+    <footer className="relative mt-auto overflow-hidden border-t border-border bg-brand-green-dark text-white">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -right-32 top-0 h-64 w-64 rounded-full bg-brand-yellow/10 blur-3xl"
@@ -40,15 +44,16 @@ export function SiteFooter() {
         <div className="sm:col-span-2 lg:col-span-2">
           <div className="flex items-center gap-3">
             <LogoMark size="sm" />
-            <span className="font-display text-lg font-bold">
-              Brain<span className="text-[#3893F4]">Stack</span>
-            </span>
+            <BrandWordmark showTagline size="md" onDark />
           </div>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">
-            Premium live coding education for curious kids in Bangladesh and
-            beyond. Building the next generation of creators, one project at a time.
+            Premium live coding education for curious kids. Embrace your excellence —
+            one project, one class, one confident kid at a time.
           </p>
-          <Link href="/webinar" className="btn-primary mt-6 inline-flex text-sm">
+          <Link
+            href="/webinar"
+            className="btn-primary mt-6 inline-flex text-sm"
+          >
             Join parent meeting
           </Link>
 
@@ -57,7 +62,10 @@ export function SiteFooter() {
               Contact
             </p>
             <p className="mt-2 text-sm text-white/70">
-              <a href="mailto:hello@brainstack.studio" className="hover:text-brand-yellow-light">
+              <a
+                href="mailto:hello@brainstack.studio"
+                className="hover:text-brand-yellow-light"
+              >
                 hello@brainstack.studio
               </a>
             </p>
@@ -74,7 +82,10 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-2.5">
             {PROGRAM_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="text-sm text-white/70 transition-colors hover:text-brand-yellow-light">
+                <Link
+                  href={link.href}
+                  className="text-sm text-white/70 transition-colors hover:text-brand-yellow-light"
+                >
                   {link.label}
                 </Link>
               </li>
@@ -89,7 +100,10 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-2.5">
             {COMPANY_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="text-sm text-white/70 transition-colors hover:text-brand-yellow-light">
+                <Link
+                  href={link.href}
+                  className="text-sm text-white/70 transition-colors hover:text-brand-yellow-light"
+                >
                   {link.label}
                 </Link>
               </li>
@@ -104,7 +118,10 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-2.5">
             {LEGAL_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="text-sm text-white/70 transition-colors hover:text-brand-yellow-light">
+                <Link
+                  href={link.href}
+                  className="text-sm text-white/70 transition-colors hover:text-brand-yellow-light"
+                >
                   {link.label}
                 </Link>
               </li>
@@ -131,7 +148,9 @@ export function SiteFooter() {
 
       <div className="border-t border-white/10">
         <div className="site-container flex flex-col gap-2 py-6 text-sm text-white/50 sm:flex-row sm:items-center sm:justify-between">
-          <p>&copy; {new Date().getFullYear()} BrainStack. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} BrainStack. All rights reserved.
+          </p>
           <p>Crafted for the next generation 🚀</p>
         </div>
       </div>

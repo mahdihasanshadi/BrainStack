@@ -8,37 +8,37 @@ const GALLERY = [
     title: "Rickshaw Street Race",
     caption: "Month 1 — coordinates, loops & collision",
     emoji: "🏎️",
-    gradient: "from-emerald-600/40 via-emerald-900/60 to-[#07000F]",
+    gradient: "from-emerald-600/40 via-emerald-900/60 to-brand-green-dark",
   },
   {
     title: "Fuchka Clicker Survival",
     caption: "Month 2 — variables & if/else logic",
     emoji: "🍡",
-    gradient: "from-amber-500/40 via-orange-900/60 to-[#07000F]",
+    gradient: "from-amber-500/40 via-orange-900/60 to-brand-green-dark",
   },
   {
     title: "BD Cricket Championship",
     caption: "Month 3 — randomization & cloning",
     emoji: "🏏",
-    gradient: "from-red-600/40 via-red-900/60 to-[#07000F]",
+    gradient: "from-red-600/40 via-red-900/60 to-brand-green-dark",
   },
   {
     title: "Grand Finale Showcase",
     caption: "Month 4 — kids demo their own game live",
     emoji: "🏆",
-    gradient: "from-violet-600/40 via-purple-900/60 to-[#07000F]",
+    gradient: "from-violet-600/40 via-purple-900/60 to-brand-green-dark",
   },
   {
     title: "Live Class in Action",
     caption: "Small groups, real instructors, real projects",
     emoji: "👩‍🏫",
-    gradient: "from-brand-pink/30 via-brand-green/20 to-[#07000F]",
+    gradient: "from-brand-pink/30 via-brand-green/20 to-brand-green-dark",
   },
   {
     title: "Parent Showcase Day",
     caption: "Families play games built by their kids",
     emoji: "👨‍👩‍👧",
-    gradient: "from-cyan-500/30 via-brand-green/20 to-[#07000F]",
+    gradient: "from-cyan-500/30 via-brand-green/20 to-brand-green-dark",
   },
 ];
 
@@ -50,7 +50,7 @@ export function ScratchMediaSection() {
   const [activePhoto, setActivePhoto] = useState(0);
 
   return (
-    <section className="py-20 sm:py-28 bg-[#07000F]">
+    <section className="py-20 sm:py-28 bg-brand-green-dark">
       <div className="site-container">
         {/* Video */}
         <div className="mb-20">
@@ -71,7 +71,7 @@ export function ScratchMediaSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
-            className="mx-auto max-w-4xl overflow-hidden rounded-3xl border border-brand-pink/30 bg-[#0D0020] shadow-[0_0_60px_rgba(247,37,133,0.18)]"
+            className="mx-auto max-w-4xl overflow-hidden rounded-3xl border border-brand-green/30 bg-surface-muted shadow-[0_0_60px_rgba(56,147,244,0.15)]"
           >
             <div className="relative aspect-video w-full bg-black">
               <iframe
@@ -136,7 +136,7 @@ export function ScratchMediaSection() {
                     <p className="font-display text-lg font-bold text-white">
                       {photo.title}
                     </p>
-                    <p className="mt-1 text-sm text-purple-200">{photo.caption}</p>
+                    <p className="mt-1 text-sm text-slate-200">{photo.caption}</p>
                   </div>
                 </div>
               </motion.button>
@@ -158,7 +158,7 @@ export function ScratchMediaSection() {
                 <p className="mt-4 font-display text-2xl font-extrabold text-white">
                   {GALLERY[activePhoto].title}
                 </p>
-                <p className="mt-2 max-w-lg text-content-muted text-purple-100">
+                <p className="mt-2 max-w-lg text-content-muted text-slate-100">
                   {GALLERY[activePhoto].caption}
                 </p>
               </div>

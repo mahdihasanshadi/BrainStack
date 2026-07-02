@@ -42,7 +42,7 @@ export function CursorGlow() {
         x: springX,
         y: springY,
         background:
-          "radial-gradient(circle, rgba(168,85,247,0.45) 0%, rgba(6,182,212,0.18) 45%, transparent 70%)",
+          "radial-gradient(circle, rgba(56,147,244,0.4) 0%, rgba(239,93,74,0.15) 45%, transparent 70%)",
       }}
     />
   );

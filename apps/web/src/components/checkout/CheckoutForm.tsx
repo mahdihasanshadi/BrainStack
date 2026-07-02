@@ -75,7 +75,7 @@ export function CheckoutForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="rounded-2xl border border-brand-pink/30 bg-brand-pink/5 p-5">
+      <div className="rounded-2xl border border-brand-green/30 bg-brand-green/5 p-5">
         <p className="text-sm text-content-muted">You&apos;re enrolling in</p>
         <p className="font-display text-lg font-bold text-content">{courseTitle}</p>
 
@@ -166,15 +166,22 @@ export function CheckoutForm({
           ))}
         </div>
         <p className="mt-2 text-xs text-content-faint">
-          Card payments are processed securely via Stripe. Mobile wallet options
-          are recorded for your preferred method at checkout.
+          {paymentMethod === "card"
+            ? "Visa / Mastercard — secure checkout via Stripe."
+            : paymentMethod === "bkash"
+              ? "bKash — send money, then confirm on WhatsApp (kotha diye)."
+              : "Nagad — send money, then confirm on WhatsApp (kotha diye)."}
         </p>
       </fieldset>
 
       {error ? <p className="form-error">{error}</p> : null}
 
       <button type="submit" disabled={submitting} className="btn-primary w-full py-4">
-        {submitting ? "Redirecting to secure payment…" : `Pay ${formatBdt(sale)}`}
+        {submitting
+          ? "Starting checkout…"
+          : paymentMethod === "card"
+            ? `Pay ${formatBdt(sale)} with card`
+            : `Continue with ${paymentMethod === "bkash" ? "bKash" : "Nagad"}`}
       </button>
 
       <p className="text-center text-xs text-content-faint">

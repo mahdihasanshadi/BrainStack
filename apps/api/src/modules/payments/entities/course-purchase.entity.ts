@@ -10,7 +10,7 @@ import {
 import { Course } from "../../courses/entities/course.entity";
 
 export type PurchaseStatus = "pending" | "completed" | "failed" | "cancelled";
-export type PaymentProvider = "stripe" | "demo";
+export type PaymentProvider = "stripe" | "demo" | "manual";
 
 @Entity({ name: "course_purchases" })
 export class CoursePurchase {

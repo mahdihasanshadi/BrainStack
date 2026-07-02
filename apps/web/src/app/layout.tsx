@@ -19,9 +19,9 @@ const bodyFont = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "BrainStack — Coding for the Next Generation",
+  title: "BrainStack — Embrace your excellence",
   description:
-    "Premium live coding education for curious kids. BrainStack builds confidence, creativity, and future-ready skills.",
+    "Premium live coding education for curious kids. Embrace your excellence with BrainStack.",
 };
 
 export default function RootLayout({

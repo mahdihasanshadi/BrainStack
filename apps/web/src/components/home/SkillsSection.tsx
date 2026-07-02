@@ -1,92 +1,87 @@
 "use client";
 
-import Link from "next/link";
+import { motion } from "framer-motion";
 import { AnimatedBackground } from "@/components/effects/AnimatedBackground";
-import { Stagger, StaggerItem } from "@/components/motion/Reveal";
-import { GlassCard } from "@/components/ui/GlassCard";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import { COURSES_SECTION_ID } from "@/components/layout/nav-links";
+import { AccentText } from "@/components/ui/AccentText";
+import { LogoColorStrip } from "@/components/ui/LogoColorStrip";
+import { getLogoAccent } from "@/lib/logo-accents";
 
 const SKILLS = [
   {
-    emoji: "🧩",
-    title: "Scratch Coding",
-    tagline: "Create with logic",
-    description: "Build games, animations, and stories through visual programming blocks.",
-    gradient: "from-brand-green/20 to-brand-green-dark/10",
-    href: `#${COURSES_SECTION_ID}`,
+    icon: "🧩",
+    title: "Logical reasoning",
+    description: "Patterns, sequences, and problem-solving before code syntax.",
+    accent: 0,
   },
   {
-    emoji: "🧠",
-    title: "Computational Thinking",
-    tagline: "Think like a builder",
-    description: "Loops, conditions, and debugging — skills that transfer to any future field.",
-    gradient: "from-brand-green-dark/20 to-brand-yellow-light/10",
-    href: `#${COURSES_SECTION_ID}`,
+    icon: "🐱",
+    title: "Scratch programming",
+    description: "Drag-and-drop blocks to build games kids actually want to play.",
+    accent: 1,
   },
   {
-    emoji: "🎥",
-    title: "Live Instruction",
-    tagline: "Learn together",
-    description: "Small groups with instructors who adapt to each child's pace and personality.",
-    gradient: "from-brand-yellow-light/20 to-brand-yellow/10",
-    href: "/how-it-works",
+    icon: "🎯",
+    title: "Project-based learning",
+    description: "Each month ends with a playable game — cricket, rickshaw, and more.",
+    accent: 2,
   },
   {
-    emoji: "🚀",
-    title: "Project Portfolio",
-    tagline: "Build to showcase",
-    description: "Every level ends with a project your child created and can proudly share.",
-    gradient: "from-brand-yellow/20 to-brand-green/10",
-    href: `#${COURSES_SECTION_ID}`,
+    icon: "📈",
+    title: "Progress tracking",
+    description: "Parents see badges, streaks, and class attendance in one place.",
+    accent: 0,
   },
 ] as const;
 
 export function SkillsSection() {
   return (
-    <section className="relative py-24 sm:py-32" aria-labelledby="skills-heading">
+    <section className="relative overflow-hidden py-24 sm:py-32">
       <AnimatedBackground variant="section" />
-
       <div className="site-container relative">
-        <SectionHeader
-          id="skills-heading"
-          eyebrow="Skills for success"
-          title={
-            <>
-              Programs that build{" "}
-              <span className="gradient-text">confidence & creativity</span>
-            </>
-          }
-          description="High-impact learning paths designed to turn curiosity into real capability — the kind of skills that last a lifetime."
-          align="center"
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mx-auto max-w-2xl text-center"
+        >
+          <LogoColorStrip size="md" className="mx-auto mb-8 max-w-xs" />
+          <h2 className="font-display text-section-sm font-extrabold tracking-tight sm:text-section">
+            Skills that <AccentText>stick</AccentText>
+          </h2>
+          <p className="mt-4 text-lg text-content-muted">
+            Not just coding — we build the thinking habits that last a lifetime.
+          </p>
+        </motion.div>
 
-        <Stagger className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4" stagger={0.12}>
-          {SKILLS.map((skill) => (
-            <StaggerItem key={skill.title}>
-              <Link href={skill.href} className="block h-full">
-                <GlassCard className={`h-full bg-gradient-to-br p-7 ${skill.gradient}`}>
-                  <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-border bg-surface-glass text-2xl backdrop-blur-xl">
-                    {skill.emoji}
+        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {SKILLS.map((skill, index) => {
+            const accent = getLogoAccent(skill.accent);
+            return (
+              <motion.article
+                key={skill.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.08 }}
+                className={`glass-card group relative overflow-hidden border p-6 transition-all duration-300 hover:-translate-y-1 ${accent.cardBorder} ${accent.glow}`}
+              >
+                <div
+                  className={`pointer-events-none absolute inset-0 bg-gradient-to-br opacity-60 transition-opacity group-hover:opacity-100 ${accent.cardGradient}`}
+                />
+                <div className="relative">
+                  <span
+                    aria-hidden="true"
+                    className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl border text-2xl backdrop-blur-sm ${accent.iconWrap}`}
+                  >
+                    {skill.icon}
                   </span>
-                  <p className="mt-6 text-xs font-semibold uppercase tracking-widest text-brand-green dark:text-brand-yellow-light">
-                    {skill.tagline}
-                  </p>
-                  <h3 className="mt-2 font-display text-xl font-bold text-content">
-                    {skill.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-content-muted">
-                    {skill.description}
-                  </p>
-                  <span className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-brand-green dark:text-brand-yellow-light">
-                    Explore
-                    <span aria-hidden="true">→</span>
-                  </span>
-                </GlassCard>
-              </Link>
-            </StaggerItem>
-          ))}
-        </Stagger>
+                  <h3 className="mt-5 font-display text-lg font-bold text-content">{skill.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-content-muted">{skill.description}</p>
+                </div>
+              </motion.article>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

@@ -228,7 +228,7 @@ const CURRICULUM = [
 
 const TYPE_STYLES: Record<string, string> = {
   setup: "border-blue-500/30 bg-blue-500/10 text-blue-400",
-  lesson: "border-purple-500/30 bg-purple-500/10 text-purple-400",
+  lesson: "border-brand-green/30 bg-brand-green/10 text-brand-green-light",
   showcase: "border-brand-pink/30 bg-brand-pink/10 text-brand-pink",
   hackathon: "border-orange-500/30 bg-orange-500/10 text-orange-400",
 };
@@ -262,7 +262,7 @@ export function ScratchCurriculumSection() {
   const totalXP = CURRICULUM.reduce((sum, m) => sum + m.xp, 0);
 
   return (
-    <section id="curriculum" className="scroll-mt-24 py-20 sm:py-28 bg-[#07000F]">
+    <section id="curriculum" className="scroll-mt-24 py-20 sm:py-28 bg-brand-green-dark">
       <div className="site-container">
         {/* Header */}
         <div className="mb-12 text-center">

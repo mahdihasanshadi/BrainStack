@@ -1,42 +1,42 @@
 "use client";
 
-import { AnimatedCounter } from "@/components/ui/AnimatedCounter";
-import { Reveal } from "@/components/motion/Reveal";
+import { motion } from "framer-motion";
+import { LogoColorStrip } from "@/components/ui/LogoColorStrip";
+import { getLogoAccent } from "@/lib/logo-accents";
 
 const STATS = [
-  { value: 500, suffix: "+", label: "Happy families", detail: "Across Bangladesh & abroad" },
-  { value: 20, suffix: "+", label: "Countries", detail: "Global student community" },
-  { value: 95, suffix: "%", label: "Retention rate", detail: "Kids who keep learning" },
-  { value: 4.9, suffix: "", label: "Parent rating", detail: "Trusted by families", decimals: 1 },
+  { value: "4", label: "Months per course", suffix: "" },
+  { value: "20", label: "Live classes", suffix: "+" },
+  { value: "6", label: "Kid-friendly age range", suffix: "–14" },
+  { value: "100", label: "Parent-first onboarding", suffix: "%" },
 ] as const;
 
 export function StatsBar() {
   return (
-    <section
-      className="relative border-y border-border bg-brand-green-dark py-14 text-white sm:py-16 dark:bg-[#0D0020]"
-      aria-label="BrainStack highlights"
-    >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_80%_at_50%_100%,rgba(34,197,94,0.2),transparent_70%)]"
-      />
-
-      <div className="site-container relative grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-12">
-        {STATS.map((stat, index) => (
-          <Reveal key={stat.label} delay={index * 0.1}>
-            <div className="text-center lg:text-left">
-              <p className="font-display text-4xl font-bold text-brand-yellow-light sm:text-5xl">
-                <AnimatedCounter
-                  value={stat.value}
-                  suffix={stat.suffix}
-                  decimals={"decimals" in stat ? stat.decimals : 0}
-                />
-              </p>
-              <p className="mt-2 font-display text-base font-semibold">{stat.label}</p>
-              <p className="mt-1 text-sm text-white/60">{stat.detail}</p>
-            </div>
-          </Reveal>
-        ))}
+    <section className="relative border-y border-border bg-surface-elevated/80 backdrop-blur-sm">
+      <LogoColorStrip size="sm" className="rounded-none" />
+      <div className="site-container py-10 sm:py-12">
+        <div className="grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-4">
+          {STATS.map((stat, index) => {
+            const accent = getLogoAccent(index);
+            return (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.08 }}
+                className="text-center"
+              >
+                <p className={`font-display text-4xl font-extrabold sm:text-5xl ${accent.stat}`}>
+                  {stat.value}
+                  <span className="text-2xl sm:text-3xl">{stat.suffix}</span>
+                </p>
+                <p className="mt-2 text-sm font-medium text-content-muted">{stat.label}</p>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

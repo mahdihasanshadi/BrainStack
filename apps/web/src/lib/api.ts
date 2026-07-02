@@ -271,6 +271,14 @@ export interface CreateCheckoutSessionPayload {
   paymentMethod?: "card" | "bkash" | "nagad";
 }
 
+export interface ManualPaymentDetails {
+  merchantNumber: string;
+  merchantLabel: string;
+  whatsappNumber: string;
+  whatsappUrl: string;
+  instructions: string[];
+}
+
 export interface CheckoutSessionResponse {
   sessionId: string;
   checkoutUrl: string;
@@ -279,7 +287,8 @@ export interface CheckoutSessionResponse {
   originalPriceBdt: number;
   discountPercent: number;
   paymentMethods: PaymentMethodInfo[];
-  mode: "stripe" | "demo";
+  mode: "stripe" | "demo" | "manual";
+  manualPayment?: ManualPaymentDetails;
 }
 
 export interface CheckoutSessionStatus {
@@ -290,10 +299,12 @@ export interface CheckoutSessionStatus {
   email: string;
   amountBdt: number;
   originalPriceBdt: number;
-  provider: "stripe" | "demo";
+  provider: "stripe" | "demo" | "manual";
+  paymentMethod: string | null;
   completedAt: string | null;
   parentName: string | null;
   phone: string | null;
+  manualPayment?: ManualPaymentDetails;
 }
 
 export async function submitParentMeetingLead(
@@ -369,5 +380,126 @@ export async function registerUser(payload: any): Promise<AuthResponse> {
   return apiFetch<AuthResponse>("/auth/register", {
     method: "POST",
     body: JSON.stringify(payload),
+  });
+}
+
+// --- Admin ---
+
+export interface AdminStats {
+  totals: {
+    trialRegistrations: number;
+    parentMeetings: number;
+    registeredParents: number;
+    registeredStudents: number;
+    registeredAdmins: number;
+    kidAssessments: number;
+    coursePurchases: number;
+    completedPurchases: number;
+    pendingPurchases: number;
+  };
+  recent: {
+    trialRegistrationsLast7Days: number;
+    parentMeetingsLast7Days: number;
+    purchasesLast7Days: number;
+  };
+}
+
+export interface AdminClassSlotSummary {
+  id: string;
+  dayOfWeek: number;
+  startTime: string;
+  endTime: string;
+  minAge: number;
+  maxAge: number;
+}
+
+export interface AdminRegistrationLead {
+  id: string;
+  parentName: string;
+  email: string;
+  phone: string;
+  childName: string;
+  childAge: number;
+  mediumOfInstruction: MediumOfInstruction;
+  gender: Gender;
+  preferredLanguage: PreferredLanguage;
+  hasDevice: boolean;
+  notes: string | null;
+  parentalConsent: boolean;
+  consentGivenAt: string;
+  createdAt: string;
+  classSlot: AdminClassSlotSummary;
+}
+
+export interface AdminUserListItem {
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  role: "parent" | "student" | "admin";
+  isVerified: boolean;
+  onboardingCompleted: boolean;
+  createdAt: string;
+}
+
+export interface AdminPurchase {
+  id: string;
+  courseId: string;
+  courseTitle: string;
+  courseSlug: string;
+  email: string;
+  phone: string | null;
+  parentName: string | null;
+  amountBdt: number;
+  originalPriceBdt: number;
+  status: "pending" | "completed" | "failed" | "cancelled";
+  provider: "stripe" | "demo" | "manual";
+  paymentMethod: string | null;
+  createdAt: string;
+  completedAt: string | null;
+}
+
+export interface AdminKidAssessment {
+  id: string;
+  parentEmail: string | null;
+  childAge: number;
+  score: number;
+  readinessLevel: string;
+  recommendation: string;
+  createdAt: string;
+}
+
+export async function getAdminStats(): Promise<AdminStats> {
+  return apiFetch<AdminStats>("/admin/stats", { cache: "no-store" });
+}
+
+export async function getAdminRegistrationLeads(): Promise<AdminRegistrationLead[]> {
+  return apiFetch<AdminRegistrationLead[]>("/admin/registration-leads", {
+    cache: "no-store",
+  });
+}
+
+export async function getAdminParentMeetingLeads(): Promise<ParentMeetingLead[]> {
+  return apiFetch<ParentMeetingLead[]>("/admin/parent-meeting-leads", {
+    cache: "no-store",
+  });
+}
+
+export async function getAdminUsers(
+  role?: "parent" | "student" | "admin",
+): Promise<AdminUserListItem[]> {
+  const query = role ? `?role=${encodeURIComponent(role)}` : "";
+  return apiFetch<AdminUserListItem[]>(`/admin/users${query}`, {
+    cache: "no-store",
+  });
+}
+
+export async function getAdminPurchases(): Promise<AdminPurchase[]> {
+  return apiFetch<AdminPurchase[]>("/admin/purchases", { cache: "no-store" });
+}
+
+export async function getAdminAssessments(): Promise<AdminKidAssessment[]> {
+  return apiFetch<AdminKidAssessment[]>("/admin/assessments", {
+    cache: "no-store",
   });
 }

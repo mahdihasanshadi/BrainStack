@@ -26,6 +26,9 @@ export interface StripeConfig {
 
 export interface PaymentsConfig {
   enabled: boolean;
+  whatsappNumber?: string;
+  bkashNumber?: string;
+  nagadNumber?: string;
 }
 
 export interface SmtpConfig {
@@ -109,6 +112,9 @@ export default (): Configuration => ({
   },
   payments: {
     enabled: envFlag("PAYMENTS_ENABLED", false),
+    whatsappNumber: optionalEnv("WHATSAPP_NUMBER"),
+    bkashNumber: optionalEnv("BKASH_MERCHANT_NUMBER"),
+    nagadNumber: optionalEnv("NAGAD_MERCHANT_NUMBER"),
   },
   stripe: {
     secretKey: optionalEnv("STRIPE_SECRET_KEY"),

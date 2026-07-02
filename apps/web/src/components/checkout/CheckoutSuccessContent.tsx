@@ -24,14 +24,18 @@ export function CheckoutSuccessContent() {
   const [phone, setPhone] = useState("");
 
   // Step state: "verify" | "password_setup" | "account_conflict" | "success"
-  const [step, setStep] = useState<"verify" | "password_setup" | "account_conflict" | "success">("verify");
+  const [step, setStep] = useState<
+    "verify" | "password_setup" | "account_conflict" | "success"
+  >("verify");
   const [password, setPassword] = useState("");
   const [setupLoading, setSetupLoading] = useState(false);
   const [setupError, setSetupError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!sessionId) {
-      setError("Missing payment session. Please contact support if you were charged.");
+      setError(
+        "Missing payment session. Please contact support if you were charged.",
+      );
       setLoading(false);
       return;
     }
@@ -50,7 +54,10 @@ export function CheckoutSuccessContent() {
         setPhone(status.phone || "");
 
         // If the user is already authenticated in this session, skip setup
-        if (authUser && authUser.email.toLowerCase() === status.email.toLowerCase()) {
+        if (
+          authUser &&
+          authUser.email.toLowerCase() === status.email.toLowerCase()
+        ) {
           setStep("success");
         } else {
           setStep("password_setup");
@@ -91,7 +98,9 @@ export function CheckoutSuccessContent() {
       if (err instanceof ApiError && err.status === 409) {
         setStep("account_conflict");
       } else {
-        setSetupError(err?.message || "Unable to set up password. Please try again.");
+        setSetupError(
+          err?.message || "Unable to set up password. Please try again.",
+        );
       }
     } finally {
       setSetupLoading(false);
@@ -127,7 +136,10 @@ export function CheckoutSuccessContent() {
 
   if (error) {
     return (
-      <div className="glass-card mx-auto max-w-xl p-10 text-center" role="alert">
+      <div
+        className="glass-card mx-auto max-w-xl p-10 text-center"
+        role="alert"
+      >
         <span className="text-4xl">⚠️</span>
         <p className="mt-4 font-display text-xl font-bold text-content">
           Payment verification issue
@@ -151,7 +163,8 @@ export function CheckoutSuccessContent() {
             Payment Confirmed!
           </h2>
           <p className="mt-2 text-sm text-content-muted">
-            Enrolled in <strong>{courseTitle}</strong> for {amountBdt ? formatBdt(amountBdt) : ""}
+            Enrolled in <strong>{courseTitle}</strong> for{" "}
+            {amountBdt ? formatBdt(amountBdt) : ""}
           </p>
         </div>
 
@@ -160,7 +173,9 @@ export function CheckoutSuccessContent() {
             Create your account password
           </h3>
           <p className="mt-1 text-xs text-content-muted">
-            You will use this password along with your email (<strong>{email}</strong>) to log in and access previous classes in the future.
+            You will use this password along with your email (
+            <strong>{email}</strong>) to log in and access previous classes in
+            the future.
           </p>
 
           <form onSubmit={handlePasswordSubmit} className="mt-4 space-y-4">
@@ -188,7 +203,9 @@ export function CheckoutSuccessContent() {
               disabled={setupLoading}
               className="btn-primary w-full py-3 font-bold shadow-glow"
             >
-              {setupLoading ? "Creating account..." : "Create Account & Continue"}
+              {setupLoading
+                ? "Creating account..."
+                : "Create Account & Continue"}
             </button>
           </form>
         </div>
@@ -207,13 +224,15 @@ export function CheckoutSuccessContent() {
             Account Exists
           </h2>
           <p className="mt-2 text-sm text-content-muted">
-            An account with the email <strong>{email}</strong> already exists in our system.
+            An account with the email <strong>{email}</strong> already exists in
+            our system.
           </p>
         </div>
 
         <div className="mt-8 border-t border-border pt-6">
           <p className="text-sm text-content-muted">
-            Please log in with your password to link your purchase and unlock your classes.
+            Please log in with your password to link your purchase and unlock
+            your classes.
           </p>
 
           <form onSubmit={handleLoginSubmit} className="mt-4 space-y-4">

@@ -129,7 +129,7 @@ export function ScratchWhatYouBuild() {
       </section>
 
       {/* ── Skills Learned ── */}
-      <section className="py-20 sm:py-24 bg-[#07000F]">
+      <section className="py-20 sm:py-24 bg-brand-green-dark">
         <div className="site-container">
           <div className="mb-12 text-center">
             <p className="eyebrow mx-auto">Skills That Last a Lifetime</p>

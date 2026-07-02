@@ -23,6 +23,14 @@ export interface PaymentMethodInfo {
   description: string;
 }
 
+export interface ManualPaymentDetails {
+  merchantNumber: string;
+  merchantLabel: string;
+  whatsappNumber: string;
+  whatsappUrl: string;
+  instructions: string[];
+}
+
 export interface CheckoutSessionResponse {
   sessionId: string;
   checkoutUrl: string;
@@ -31,7 +39,8 @@ export interface CheckoutSessionResponse {
   originalPriceBdt: number;
   discountPercent: number;
   paymentMethods: PaymentMethodInfo[];
-  mode: "stripe" | "demo";
+  mode: "stripe" | "demo" | "manual";
+  manualPayment?: ManualPaymentDetails;
 }
 
 export interface CheckoutSessionStatusResponse {
@@ -43,9 +52,11 @@ export interface CheckoutSessionStatusResponse {
   amountBdt: number;
   originalPriceBdt: number;
   provider: PaymentProvider;
+  paymentMethod: string | null;
   completedAt: string | null;
   parentName: string | null;
   phone: string | null;
+  manualPayment?: ManualPaymentDetails;
 }
 
 const PAYMENT_METHODS: PaymentMethodInfo[] = [
@@ -122,6 +133,19 @@ export class PaymentsService {
       ((originalPriceBdt - course.priceBdt) / originalPriceBdt) * 100,
     );
 
+    const paymentMethod = dto.paymentMethod ?? "card";
+
+    if (paymentMethod === "bkash" || paymentMethod === "nagad") {
+      return this.createManualCheckoutSession({
+        course,
+        dto,
+        frontendUrl,
+        originalPriceBdt,
+        discountPercent,
+        paymentMethod,
+      });
+    }
+
     if (paymentsEnabled && this.stripe) {
       return this.createStripeCheckoutSession({
         course,
@@ -172,9 +196,83 @@ export class PaymentsService {
       amountBdt: purchase.amountBdt,
       originalPriceBdt: purchase.originalPriceBdt,
       provider: purchase.provider,
+      paymentMethod: purchase.paymentMethod,
       completedAt: purchase.completedAt?.toISOString() ?? null,
       parentName: purchase.parentName,
       phone: purchase.phone,
+      manualPayment:
+        purchase.provider === "manual"
+          ? this.buildManualPaymentDetails({
+              courseTitle: purchase.course.title,
+              amountBdt: purchase.amountBdt,
+              paymentMethod: purchase.paymentMethod as "bkash" | "nagad",
+              parentName: purchase.parentName ?? "Parent",
+              phone: purchase.phone ?? "",
+              email: purchase.email,
+              sessionId: purchase.stripeSessionId,
+            })
+          : undefined,
+    };
+  }
+
+  private buildManualPaymentDetails(params: {
+    courseTitle: string;
+    amountBdt: number;
+    paymentMethod: "bkash" | "nagad";
+    parentName: string;
+    phone: string;
+    email: string;
+    sessionId: string;
+  }): ManualPaymentDetails | undefined {
+    const whatsappNumber = this.configService.get("payments.whatsappNumber", {
+      infer: true,
+    });
+    const bkashNumber = this.configService.get("payments.bkashNumber", {
+      infer: true,
+    });
+    const nagadNumber = this.configService.get("payments.nagadNumber", {
+      infer: true,
+    });
+
+    const merchantNumber =
+      params.paymentMethod === "bkash" ? bkashNumber : nagadNumber;
+
+    if (!whatsappNumber || !merchantNumber) {
+      return undefined;
+    }
+
+    const merchantLabel = params.paymentMethod === "bkash" ? "bKash" : "Nagad";
+    const whatsappMessage = [
+      "Assalamualaikum BrainStack team! 👋",
+      "",
+      "Ami course payment confirm korte chai (kotha diye):",
+      `Course: ${params.courseTitle}`,
+      `Amount: ৳${params.amountBdt.toLocaleString("en-BD")}`,
+      `Method: ${merchantLabel}`,
+      `Send money to: ${merchantNumber}`,
+      "",
+      `Parent: ${params.parentName}`,
+      `Phone: ${params.phone}`,
+      `Email: ${params.email}`,
+      `Reference: ${params.sessionId}`,
+      "",
+      "Transaction ID: [আপনার Trx ID লিখুন]",
+      "(Payment screenshot attach korben)",
+    ].join("\n");
+
+    const whatsappUrl = `https://wa.me/${this.toWhatsAppDigits(whatsappNumber)}?text=${encodeURIComponent(whatsappMessage)}`;
+
+    return {
+      merchantNumber,
+      merchantLabel,
+      whatsappNumber,
+      whatsappUrl,
+      instructions: [
+        `Open ${merchantLabel} and send exactly ৳${params.amountBdt.toLocaleString("en-BD")} to ${merchantNumber}.`,
+        "Copy your Transaction ID from the app.",
+        "Tap WhatsApp — add your Trx ID and payment screenshot.",
+        "Our team confirms on WhatsApp and activates your course.",
+      ],
     };
   }
 
@@ -286,6 +384,96 @@ export class PaymentsService {
       paymentMethods: PAYMENT_METHODS,
       mode: "stripe",
     };
+  }
+
+  private async createManualCheckoutSession(params: {
+    course: Course;
+    dto: CreateCheckoutSessionDto;
+    frontendUrl: string;
+    originalPriceBdt: number;
+    discountPercent: number;
+    paymentMethod: "bkash" | "nagad";
+  }): Promise<CheckoutSessionResponse> {
+    const { course, dto, frontendUrl, originalPriceBdt, discountPercent, paymentMethod } =
+      params;
+
+    const whatsappNumber = this.configService.get("payments.whatsappNumber", {
+      infer: true,
+    });
+    const bkashNumber = this.configService.get("payments.bkashNumber", {
+      infer: true,
+    });
+    const nagadNumber = this.configService.get("payments.nagadNumber", {
+      infer: true,
+    });
+
+    const merchantNumber =
+      paymentMethod === "bkash" ? bkashNumber : nagadNumber;
+
+    if (!whatsappNumber || !merchantNumber) {
+      throw new ServiceUnavailableException(
+        paymentMethod === "bkash"
+          ? "bKash + WhatsApp payment is not configured yet. Set WHATSAPP_NUMBER and BKASH_MERCHANT_NUMBER in the API .env, or pay with card."
+          : "Nagad + WhatsApp payment is not configured yet. Set WHATSAPP_NUMBER and NAGAD_MERCHANT_NUMBER in the API .env, or pay with card.",
+      );
+    }
+
+    const sessionId = `manual_${Date.now()}_${course.slug}`;
+    const checkoutUrl = `${frontendUrl}/checkout/manual?session_id=${encodeURIComponent(sessionId)}`;
+    const parentName = dto.parentName?.trim() ?? "Parent";
+    const phone = dto.phone?.trim() ?? "";
+    const email = dto.email.trim();
+
+    const manualDetails = this.buildManualPaymentDetails({
+      courseTitle: course.title,
+      amountBdt: course.priceBdt,
+      paymentMethod,
+      parentName,
+      phone,
+      email,
+      sessionId,
+    });
+
+    if (!manualDetails) {
+      throw new ServiceUnavailableException(
+        "Manual payment configuration is incomplete.",
+      );
+    }
+
+    await this.purchasesRepository.save(
+      this.purchasesRepository.create({
+        courseId: course.id,
+        email,
+        phone: phone || null,
+        parentName,
+        stripeSessionId: sessionId,
+        amountBdt: course.priceBdt,
+        originalPriceBdt,
+        status: "pending",
+        provider: "manual",
+        paymentMethod,
+      }),
+    );
+
+    return {
+      sessionId,
+      checkoutUrl,
+      courseTitle: course.title,
+      priceBdt: course.priceBdt,
+      originalPriceBdt,
+      discountPercent,
+      paymentMethods: PAYMENT_METHODS,
+      mode: "manual",
+      manualPayment: manualDetails,
+    };
+  }
+
+  private toWhatsAppDigits(phone: string): string {
+    const digits = phone.replace(/\D/g, "");
+    if (digits.startsWith("880")) return digits;
+    if (digits.startsWith("0")) return `88${digits}`;
+    if (digits.startsWith("1") && digits.length === 10) return `88${digits}`;
+    return digits;
   }
 
   private async createDemoCheckoutSession(params: {

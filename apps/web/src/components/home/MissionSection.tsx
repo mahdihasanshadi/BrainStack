@@ -28,7 +28,7 @@ const PILLARS = [
 export function MissionSection() {
   return (
     <section
-      className="relative overflow-hidden bg-brand-green-dark py-24 text-white sm:py-32 dark:bg-[#0D0020]"
+      className="relative overflow-hidden bg-brand-green-dark py-24 text-white sm:py-32"
       aria-labelledby="mission-heading"
     >
       <div

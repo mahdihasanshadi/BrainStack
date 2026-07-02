@@ -191,7 +191,7 @@ export function ScratchGamification() {
       </section>
 
       {/* ── Parent Reviews ── */}
-      <section className="py-20 sm:py-24 bg-[#07000F]">
+      <section className="py-20 sm:py-24 bg-brand-green-dark">
         <div className="site-container">
           <div className="mb-12 text-center">
             <p className="eyebrow mx-auto">Parent Reviews</p>
@@ -265,7 +265,7 @@ export function ScratchGamification() {
       </section>
 
       {/* ── Final CTA ── */}
-      <section className="py-20 sm:py-28 bg-[#07000F] relative overflow-hidden">
+      <section className="py-20 sm:py-28 bg-brand-green-dark relative overflow-hidden">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-pink/12 blur-[120px]" />
         </div>

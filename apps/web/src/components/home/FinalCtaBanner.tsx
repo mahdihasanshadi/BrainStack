@@ -4,7 +4,16 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { AnimatedBackground } from "@/components/effects/AnimatedBackground";
 import { AccentText } from "@/components/ui/AccentText";
+import { LogoColorStrip } from "@/components/ui/LogoColorStrip";
+import { getLogoAccent } from "@/lib/logo-accents";
 import { TRIAL_REGISTRATION_PATH } from "@/components/layout/nav-links";
+
+const CHECKS = [
+  "No payment required",
+  "Ages 6–14",
+  "Bangla or English",
+  "Live instructors",
+] as const;
 
 export function FinalCtaBanner() {
   return (
@@ -22,7 +31,8 @@ export function FinalCtaBanner() {
           transition={{ duration: 0.6 }}
           className="gradient-border mx-auto max-w-4xl"
         >
-          <div className="gradient-border-inner px-8 py-16 text-center sm:px-16 sm:py-20">
+          <div className="gradient-border-inner overflow-hidden px-8 py-16 text-center sm:px-16 sm:py-20">
+            <LogoColorStrip size="md" className="mx-auto mb-8 max-w-xs" />
             <p className="eyebrow mx-auto">Start your journey</p>
             <h2
               id="final-cta-heading"
@@ -45,18 +55,15 @@ export function FinalCtaBanner() {
               <span aria-hidden="true">→</span>
             </Link>
             <ul className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-medium text-content-muted">
-              <li className="flex items-center gap-2">
-                <span className="text-brand-green">✓</span> No payment required
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-brand-green">✓</span> Ages 6–14
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-brand-green">✓</span> Bangla or English
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-brand-green">✓</span> Live instructors
-              </li>
+              {CHECKS.map((label, index) => {
+                const accent = getLogoAccent(index);
+                return (
+                  <li key={label} className="flex items-center gap-2">
+                    <span className={accent.check}>✓</span>
+                    {label}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </motion.div>
